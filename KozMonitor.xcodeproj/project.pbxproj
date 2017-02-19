@@ -481,6 +481,7 @@
 				B68243231E58E1CB0011350B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

@@ -21,6 +21,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   // MARK: - Properties
   
+  @IBOutlet weak var dismissButton: UIButton!
   @IBOutlet weak var notificationSwitch: UISwitch!
   @IBOutlet weak var fetchIntervalLabel: UILabel!
   @IBOutlet weak var fetchIntervalPickerView: UIPickerView!
@@ -47,13 +48,22 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
         MyDataManager.shared.saveMainContext()
         self.reloadContent()
         
-        
-        
-        UNUserNotificationCenter.current().requestAuthorization(options: [ .alert, .badge, .sound, .carPlay ]) { (authorized, error) in
-          if authorized {
-            print("\(self.className) : User authorized notifications")
-          } else {
-            print("\(self.className) : User did not authorize notifications")
+        // If the notification settings have not been determined yet display authorization prompt
+        if settings.authorizationStatus.isNotDetermined {
+          
+          UNUserNotificationCenter.current().requestAuthorization(options: [ .alert, .badge, .sound, .carPlay ]) { (authorized, error) in
+            if authorized {
+              print("\(self.className) : User authorized notifications")
+              Global.shared.notificationsEnabled = true
+              MyDataManager.shared.saveMainContext()
+              self.reloadContent()
+              
+            } else {
+              print("\(self.className) : User did not authorize notifications")
+              Global.shared.notificationsEnabled = false
+              MyDataManager.shared.saveMainContext()
+              self.reloadContent()
+            }
           }
         }
       }
@@ -84,6 +94,12 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     self.fetchIntervalPickerShowing = false
   }
   
+  // MARK: - Actions
+  
+  @IBAction func dismissButtonSelected() {
+    self.dismissController()
+  }
+  
   // MARK: - NSFetchedResultsControllerDelegate
   
   var fetchedResultsController: NSFetchedResultsController<Global>? = nil
@@ -110,7 +126,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   func reloadContent(animated: Bool = false) {
     self.notificationSwitch.setOn(Global.shared.notificationsEnabled, animated: animated)
-    self.fetchIntervalLabel.text = "\(Global.shared.backgroundFetchInterval)"
+    self.fetchIntervalLabel.text = "\(Global.shared.backgroundFetchInterval)m"
     
     // Set the version label
     if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -170,15 +186,17 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   // MARK: - UITableView
   
   override func numberOfSections(in tableView: UITableView) -> Int {
-    return 2
+    return 3
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch section {
     case 0:
-      return self.fetchIntervalPickerShowing ? 3 : 2
-    case 1:
       return 1
+    case 1:
+      return self.fetchIntervalPickerShowing ? 3 : 2
+    case 2:
+      return 2
     default:
       return 0
     }
@@ -187,7 +205,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     
-    if indexPath.section == 0 && indexPath.row == 1 {
+    if indexPath.section == 1 && indexPath.row == 1 {
       self.fetchIntervalPickerShowing = !self.fetchIntervalPickerShowing
       self.reloadContent(animated: true)
     }
