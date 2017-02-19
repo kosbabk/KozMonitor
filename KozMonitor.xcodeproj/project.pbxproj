@@ -8,20 +8,58 @@
 
 /* Begin PBXBuildFile section */
 		B68243131E58E1CB0011350B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243121E58E1CB0011350B /* AppDelegate.swift */; };
-		B68243151E58E1CB0011350B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243141E58E1CB0011350B /* ViewController.swift */; };
 		B68243181E58E1CB0011350B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B68243161E58E1CB0011350B /* Main.storyboard */; };
 		B682431A1E58E1CB0011350B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B68243191E58E1CB0011350B /* Assets.xcassets */; };
 		B682431D1E58E1CB0011350B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B682431B1E58E1CB0011350B /* LaunchScreen.storyboard */; };
+		B682432A1E58F1F70011350B /* MyClassProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243291E58F1F70011350B /* MyClassProtocol.swift */; };
+		B682432D1E5913980011350B /* MyDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682432C1E5913980011350B /* MyDataManager.swift */; };
+		B682432F1E5913C50011350B /* MyManagedObjectProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682432E1E5913C50011350B /* MyManagedObjectProtocol.swift */; };
+		B68243331E59171F0011350B /* KozMonitor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B68243311E59171F0011350B /* KozMonitor.xcdatamodeld */; };
+		B682433B1E5918B60011350B /* FetchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243351E5918B60011350B /* FetchEvent.swift */; };
+		B682433D1E5918B60011350B /* FetchEventCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243371E5918B60011350B /* FetchEventCollection.swift */; };
+		B682433F1E5918B60011350B /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243391E5918B60011350B /* Global.swift */; };
+		B68243411E5927640011350B /* CollectionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243401E5927640011350B /* CollectionListViewController.swift */; };
+		B68243431E59279F0011350B /* MyViewControllerIdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243421E59279F0011350B /* MyViewControllerIdentifierProtocol.swift */; };
+		B68243451E5927C20011350B /* PresentableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243441E5927C20011350B /* PresentableController.swift */; };
+		B68243481E5927E60011350B /* UIViewController+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243471E5927E60011350B /* UIViewController+Util.swift */; };
+		B682434A1E5928010011350B /* UIView+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243491E5928010011350B /* UIView+Util.swift */; };
+		B682434D1E5929D90011350B /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682434C1E5929D90011350B /* MyViewController.swift */; };
+		B682434F1E5929F10011350B /* MyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682434E1E5929F10011350B /* MyTableViewController.swift */; };
+		B68243511E5929F80011350B /* MyCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243501E5929F80011350B /* MyCollectionViewController.swift */; };
+		B68243531E592A020011350B /* MyNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243521E592A020011350B /* MyNavigationController.swift */; };
+		B68243551E592BB00011350B /* UIDevice+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243541E592BB00011350B /* UIDevice+Util.swift */; };
+		B68243581E592BFE0011350B /* LeftMenuPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243571E592BFE0011350B /* LeftMenuPresentationManager.swift */; };
+		B682435A1E5933250011350B /* UIBarButtonItem+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243591E5933250011350B /* UIBarButtonItem+Util.swift */; };
+		B682435C1E5A02C00011350B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682435B1E5A02C00011350B /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		B682430F1E58E1CB0011350B /* KozMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KozMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B68243121E58E1CB0011350B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B68243141E58E1CB0011350B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B68243171E58E1CB0011350B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B68243191E58E1CB0011350B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B682431C1E58E1CB0011350B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B682431E1E58E1CB0011350B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B68243291E58F1F70011350B /* MyClassProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyClassProtocol.swift; sourceTree = "<group>"; };
+		B682432C1E5913980011350B /* MyDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDataManager.swift; sourceTree = "<group>"; };
+		B682432E1E5913C50011350B /* MyManagedObjectProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyManagedObjectProtocol.swift; sourceTree = "<group>"; };
+		B68243321E59171F0011350B /* KozMonitor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KozMonitor.xcdatamodel; sourceTree = "<group>"; };
+		B68243351E5918B60011350B /* FetchEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchEvent.swift; path = ManagedObjects/FetchEvent.swift; sourceTree = "<group>"; };
+		B68243371E5918B60011350B /* FetchEventCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchEventCollection.swift; path = ManagedObjects/FetchEventCollection.swift; sourceTree = "<group>"; };
+		B68243391E5918B60011350B /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Global.swift; path = ManagedObjects/Global.swift; sourceTree = "<group>"; };
+		B68243401E5927640011350B /* CollectionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionListViewController.swift; sourceTree = "<group>"; };
+		B68243421E59279F0011350B /* MyViewControllerIdentifierProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewControllerIdentifierProtocol.swift; sourceTree = "<group>"; };
+		B68243441E5927C20011350B /* PresentableController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentableController.swift; sourceTree = "<group>"; };
+		B68243471E5927E60011350B /* UIViewController+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Util.swift"; sourceTree = "<group>"; };
+		B68243491E5928010011350B /* UIView+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Util.swift"; sourceTree = "<group>"; };
+		B682434C1E5929D90011350B /* MyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
+		B682434E1E5929F10011350B /* MyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTableViewController.swift; sourceTree = "<group>"; };
+		B68243501E5929F80011350B /* MyCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyCollectionViewController.swift; sourceTree = "<group>"; };
+		B68243521E592A020011350B /* MyNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNavigationController.swift; sourceTree = "<group>"; };
+		B68243541E592BB00011350B /* UIDevice+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Util.swift"; sourceTree = "<group>"; };
+		B68243571E592BFE0011350B /* LeftMenuPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPresentationManager.swift; sourceTree = "<group>"; };
+		B68243591E5933250011350B /* UIBarButtonItem+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Util.swift"; sourceTree = "<group>"; };
+		B682435B1E5A02C00011350B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,13 +93,112 @@
 			isa = PBXGroup;
 			children = (
 				B68243121E58E1CB0011350B /* AppDelegate.swift */,
-				B68243141E58E1CB0011350B /* ViewController.swift */,
+				B68243241E58E2130011350B /* Common */,
+				B68243251E58E21A0011350B /* View */,
+				B68243261E58E21F0011350B /* Controller */,
+				B68243271E58E2300011350B /* Supporting Files */,
+			);
+			path = KozMonitor;
+			sourceTree = "<group>";
+		};
+		B68243241E58E2130011350B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B68243561E592BE00011350B /* CustomTransitions */,
+				B68243281E58F1EC0011350B /* Protocols */,
+				B682432B1E5913870011350B /* Model */,
+				B68243461E5927C90011350B /* Extensions */,
+				B682434B1E5929CF0011350B /* Common Controllers */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		B68243251E58E21A0011350B /* View */ = {
+			isa = PBXGroup;
+			children = (
 				B68243161E58E1CB0011350B /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		B68243261E58E21F0011350B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B68243401E5927640011350B /* CollectionListViewController.swift */,
+				B682435B1E5A02C00011350B /* SettingsViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		B68243271E58E2300011350B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
 				B68243191E58E1CB0011350B /* Assets.xcassets */,
 				B682431B1E58E1CB0011350B /* LaunchScreen.storyboard */,
 				B682431E1E58E1CB0011350B /* Info.plist */,
 			);
-			path = KozMonitor;
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B68243281E58F1EC0011350B /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				B68243291E58F1F70011350B /* MyClassProtocol.swift */,
+				B68243421E59279F0011350B /* MyViewControllerIdentifierProtocol.swift */,
+				B68243441E5927C20011350B /* PresentableController.swift */,
+			);
+			name = Protocols;
+			sourceTree = "<group>";
+		};
+		B682432B1E5913870011350B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B68243311E59171F0011350B /* KozMonitor.xcdatamodeld */,
+				B682432C1E5913980011350B /* MyDataManager.swift */,
+				B682432E1E5913C50011350B /* MyManagedObjectProtocol.swift */,
+				B68243301E5917080011350B /* Managed Objects */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		B68243301E5917080011350B /* Managed Objects */ = {
+			isa = PBXGroup;
+			children = (
+				B68243391E5918B60011350B /* Global.swift */,
+				B68243371E5918B60011350B /* FetchEventCollection.swift */,
+				B68243351E5918B60011350B /* FetchEvent.swift */,
+			);
+			name = "Managed Objects";
+			sourceTree = "<group>";
+		};
+		B68243461E5927C90011350B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B68243471E5927E60011350B /* UIViewController+Util.swift */,
+				B68243491E5928010011350B /* UIView+Util.swift */,
+				B68243541E592BB00011350B /* UIDevice+Util.swift */,
+				B68243591E5933250011350B /* UIBarButtonItem+Util.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		B682434B1E5929CF0011350B /* Common Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B682434C1E5929D90011350B /* MyViewController.swift */,
+				B682434E1E5929F10011350B /* MyTableViewController.swift */,
+				B68243501E5929F80011350B /* MyCollectionViewController.swift */,
+				B68243521E592A020011350B /* MyNavigationController.swift */,
+			);
+			name = "Common Controllers";
+			sourceTree = "<group>";
+		};
+		B68243561E592BE00011350B /* CustomTransitions */ = {
+			isa = PBXGroup;
+			children = (
+				B68243571E592BFE0011350B /* LeftMenuPresentationManager.swift */,
+			);
+			name = CustomTransitions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +211,7 @@
 				B682430B1E58E1CB0011350B /* Sources */,
 				B682430C1E58E1CB0011350B /* Frameworks */,
 				B682430D1E58E1CB0011350B /* Resources */,
+				B682435D1E5A34080011350B /* Set Build Number */,
 			);
 			buildRules = (
 			);
@@ -98,6 +236,11 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 6SS93B87P2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -132,13 +275,49 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B682435D1E5A34080011350B /* Set Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Build Number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\ngit=$(sh /etc/profile; which git)\nnumber_of_commits=$(\"$git\" rev-list HEAD --count)\ngit_release_version=$(\"$git\" describe --tags --always --abbrev=0)\n\ntarget_plist=\"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\ndsym_plist=\"$DWARF_DSYM_FOLDER_PATH/$DWARF_DSYM_FILE_NAME/Contents/Info.plist\"\n\nfor plist in \"$target_plist\" \"$dsym_plist\"; do\nif [ -f \"$plist\" ]; then\n# Set build number\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $number_of_commits\" \"$plist\"\n\n# Version (Commented out for now)\n# /usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString ${git_release_version#*v}\" \"$plist\"\nfi\ndone\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B682430B1E58E1CB0011350B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B68243151E58E1CB0011350B /* ViewController.swift in Sources */,
+				B682434A1E5928010011350B /* UIView+Util.swift in Sources */,
+				B68243411E5927640011350B /* CollectionListViewController.swift in Sources */,
+				B682435C1E5A02C00011350B /* SettingsViewController.swift in Sources */,
+				B68243531E592A020011350B /* MyNavigationController.swift in Sources */,
+				B682434F1E5929F10011350B /* MyTableViewController.swift in Sources */,
+				B68243551E592BB00011350B /* UIDevice+Util.swift in Sources */,
 				B68243131E58E1CB0011350B /* AppDelegate.swift in Sources */,
+				B68243451E5927C20011350B /* PresentableController.swift in Sources */,
+				B682432F1E5913C50011350B /* MyManagedObjectProtocol.swift in Sources */,
+				B68243331E59171F0011350B /* KozMonitor.xcdatamodeld in Sources */,
+				B68243481E5927E60011350B /* UIViewController+Util.swift in Sources */,
+				B68243511E5929F80011350B /* MyCollectionViewController.swift in Sources */,
+				B682433D1E5918B60011350B /* FetchEventCollection.swift in Sources */,
+				B682433B1E5918B60011350B /* FetchEvent.swift in Sources */,
+				B682435A1E5933250011350B /* UIBarButtonItem+Util.swift in Sources */,
+				B682432A1E58F1F70011350B /* MyClassProtocol.swift in Sources */,
+				B68243431E59279F0011350B /* MyViewControllerIdentifierProtocol.swift in Sources */,
+				B682433F1E5918B60011350B /* Global.swift in Sources */,
+				B68243581E592BFE0011350B /* LeftMenuPresentationManager.swift in Sources */,
+				B682434D1E5929D90011350B /* MyViewController.swift in Sources */,
+				B682432D1E5913980011350B /* MyDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +483,19 @@
 			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B68243311E59171F0011350B /* KozMonitor.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B68243321E59171F0011350B /* KozMonitor.xcdatamodel */,
+			);
+			currentVersion = B68243321E59171F0011350B /* KozMonitor.xcdatamodel */;
+			path = KozMonitor.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B68243071E58E1CB0011350B /* Project object */;
 }
