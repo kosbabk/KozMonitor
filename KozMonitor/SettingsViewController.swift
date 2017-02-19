@@ -185,17 +185,28 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   // MARK: - UITableView
   
+  let dismissSection: Int = 0
+  let settingsSection: Int = 1
+  let infoSection: Int = 2
+  
   override func numberOfSections(in tableView: UITableView) -> Int {
     return 3
   }
   
+  override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    if section == self.settingsSection, let path = Global.shared.requestPath {
+      return "Request Path: \(path)"
+    }
+    return nil
+  }
+  
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch section {
-    case 0:
+    case self.dismissSection:
       return 1
-    case 1:
+    case self.settingsSection:
       return self.fetchIntervalPickerShowing ? 3 : 2
-    case 2:
+    case self.infoSection:
       return 2
     default:
       return 0
@@ -205,7 +216,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
     
-    if indexPath.section == 1 && indexPath.row == 1 {
+    if indexPath.section == self.settingsSection && indexPath.row == 1 {
       self.fetchIntervalPickerShowing = !self.fetchIntervalPickerShowing
       self.reloadContent(animated: true)
     }

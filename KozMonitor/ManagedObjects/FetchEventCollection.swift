@@ -12,6 +12,17 @@ import CoreData
 
 extension FetchEventCollection : MyManagedObjectProtocol {
   
+  // MARK: - Properties
+  
+  var selectedFetchInterval: Int {
+    set {
+      self.selectedFetchIntervalValue = Int32(newValue)
+    }
+    get {
+      return Int(self.selectedFetchIntervalValue)
+    }
+  }
+  
   // MARK: - MyManagedObjectProtocol
   
   static var sortDescriptors: [NSSortDescriptor]? {
@@ -27,9 +38,11 @@ extension FetchEventCollection : MyManagedObjectProtocol {
   
   // MARK: - Create / Update
   
-  static func createOrUpdate(startDate: Date) -> FetchEventCollection {
+  static func createOrUpdate(startDate: Date, selectedFetchInterval: Int, requestPath: String) -> FetchEventCollection {
     let object = self.fetch(startDate: startDate) ?? self.create()
     object.startDate = startDate as NSDate
+    object.selectedFetchInterval = selectedFetchInterval
+    object.requestPath = requestPath
     return object
   }
 }

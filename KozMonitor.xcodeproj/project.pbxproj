@@ -60,6 +60,7 @@
 		B68243571E592BFE0011350B /* LeftMenuPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPresentationManager.swift; sourceTree = "<group>"; };
 		B68243591E5933250011350B /* UIBarButtonItem+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Util.swift"; sourceTree = "<group>"; };
 		B682435B1E5A02C00011350B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		B682435E1E5A3A4C0011350B /* KozMonitor 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "KozMonitor 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -489,9 +490,10 @@
 		B68243311E59171F0011350B /* KozMonitor.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B682435E1E5A3A4C0011350B /* KozMonitor 2.xcdatamodel */,
 				B68243321E59171F0011350B /* KozMonitor.xcdatamodel */,
 			);
-			currentVersion = B68243321E59171F0011350B /* KozMonitor.xcdatamodel */;
+			currentVersion = B682435E1E5A3A4C0011350B /* KozMonitor 2.xcdatamodel */;
 			path = KozMonitor.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
