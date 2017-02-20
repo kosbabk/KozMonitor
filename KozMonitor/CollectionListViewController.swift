@@ -64,7 +64,7 @@ class CollectionListViewController : MyTableViewController, ItemsReloadable, NSF
   
   @objc func openSettingsMenu() {
     var viewController = SettingsViewController.newViewController()
-    viewController.presentControllerIn(self, forMode: .leftMenu, inNavigationController: false)
+    viewController.presentControllerIn(self, forMode: .leftMenu, inNavigationController: false, isDragDismissable: true)
   }
   
   // MARK: - NSFetchedResultsControllerDelegate

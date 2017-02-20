@@ -9,7 +9,32 @@
 import Foundation
 import UIKit
 
-class LeftMenuPresentationManager : NSObject, UIViewControllerTransitioningDelegate {
+class LeftMenuPresentationManager : NSObject, UIViewControllerTransitioningDelegate, MyPresenationManager {
+  
+  // MARK: - MyPresenationManager
+  
+  var presentationInteractor: MyInteractor? = nil
+  var dismissInteractor: MyInteractor? = nil
+  
+  required override init() {
+    super.init()
+  }
+  
+  required init(presentationInteractor: MyInteractor, dismissInteractor: MyInteractor) {
+    self.presentationInteractor = presentationInteractor
+    self.dismissInteractor = dismissInteractor
+    super.init()
+  }
+  
+  required init(presentationInteractor: MyInteractor) {
+    self.presentationInteractor = presentationInteractor
+    super.init()
+  }
+  
+  required init(dismissInteractor: MyInteractor) {
+    self.dismissInteractor = dismissInteractor
+    super.init()
+  }
   
   // MARK: - UIViewControllerTransitioningDelegate
   
@@ -25,6 +50,19 @@ class LeftMenuPresentationManager : NSObject, UIViewControllerTransitioningDeleg
     return LeftMenuAnimator()
   }
   
+  func interactionControllerForPresentation(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    if let presentationInteractor = self.presentationInteractor {
+      return presentationInteractor.hasStarted ? presentationInteractor : nil
+    }
+    return nil
+  }
+  
+  func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    if let dismissInteractor = self.dismissInteractor {
+      return dismissInteractor.hasStarted ? dismissInteractor : nil
+    }
+    return nil
+  }
   
   // MARK: - Animator
   

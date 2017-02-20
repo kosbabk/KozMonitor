@@ -40,6 +40,12 @@
 		B682438A1E5AC2880011350B /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243881E5AC2880011350B /* EmptyStateView.swift */; };
 		B682438D1E5AC4380011350B /* ItemsReloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682438C1E5AC4380011350B /* ItemsReloadable.swift */; };
 		B682438F1E5AC49F0011350B /* EmptyStateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B682438E1E5AC49F0011350B /* EmptyStateView.xib */; };
+		B697073B1E5B8CAC0034A3FB /* MyPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697073A1E5B8CAB0034A3FB /* MyPresentationManager.swift */; };
+		B69707431E5B943F0034A3FB /* MyInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69707421E5B943F0034A3FB /* MyInteractor.swift */; };
+		B69707471E5B94650034A3FB /* DragDownDismissInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69707461E5B94650034A3FB /* DragDownDismissInteractor.swift */; };
+		B69707491E5B94750034A3FB /* DragUpDismissInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69707481E5B94750034A3FB /* DragUpDismissInteractor.swift */; };
+		B697074B1E5B947D0034A3FB /* DragLeftDismissInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697074A1E5B947D0034A3FB /* DragLeftDismissInteractor.swift */; };
+		B697074D1E5B94850034A3FB /* DragRightDismissInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697074C1E5B94850034A3FB /* DragRightDismissInteractor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +84,12 @@
 		B68243881E5AC2880011350B /* EmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		B682438C1E5AC4380011350B /* ItemsReloadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsReloadable.swift; sourceTree = "<group>"; };
 		B682438E1E5AC49F0011350B /* EmptyStateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyStateView.xib; sourceTree = "<group>"; };
+		B697073A1E5B8CAB0034A3FB /* MyPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyPresentationManager.swift; sourceTree = "<group>"; };
+		B69707421E5B943F0034A3FB /* MyInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyInteractor.swift; sourceTree = "<group>"; };
+		B69707461E5B94650034A3FB /* DragDownDismissInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragDownDismissInteractor.swift; sourceTree = "<group>"; };
+		B69707481E5B94750034A3FB /* DragUpDismissInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragUpDismissInteractor.swift; sourceTree = "<group>"; };
+		B697074A1E5B947D0034A3FB /* DragLeftDismissInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragLeftDismissInteractor.swift; sourceTree = "<group>"; };
+		B697074C1E5B94850034A3FB /* DragRightDismissInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragRightDismissInteractor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,7 +134,7 @@
 		B68243241E58E2130011350B /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				B68243561E592BE00011350B /* CustomTransitions */,
+				B68243561E592BE00011350B /* Custom Transitions */,
 				B68243281E58F1EC0011350B /* Protocols */,
 				B682432B1E5913870011350B /* Model */,
 				B68243461E5927C90011350B /* Extensions */,
@@ -219,12 +231,14 @@
 			name = "Common Controllers";
 			sourceTree = "<group>";
 		};
-		B68243561E592BE00011350B /* CustomTransitions */ = {
+		B68243561E592BE00011350B /* Custom Transitions */ = {
 			isa = PBXGroup;
 			children = (
+				B697073A1E5B8CAB0034A3FB /* MyPresentationManager.swift */,
 				B68243571E592BFE0011350B /* LeftMenuPresentationManager.swift */,
+				B69707411E5B94230034A3FB /* Drag Dismissible */,
 			);
-			name = CustomTransitions;
+			name = "Custom Transitions";
 			sourceTree = "<group>";
 		};
 		B68243871E5AC27B0011350B /* Empty State */ = {
@@ -234,6 +248,18 @@
 				B682438E1E5AC49F0011350B /* EmptyStateView.xib */,
 			);
 			name = "Empty State";
+			sourceTree = "<group>";
+		};
+		B69707411E5B94230034A3FB /* Drag Dismissible */ = {
+			isa = PBXGroup;
+			children = (
+				B69707421E5B943F0034A3FB /* MyInteractor.swift */,
+				B69707461E5B94650034A3FB /* DragDownDismissInteractor.swift */,
+				B69707481E5B94750034A3FB /* DragUpDismissInteractor.swift */,
+				B697074A1E5B947D0034A3FB /* DragLeftDismissInteractor.swift */,
+				B697074C1E5B94850034A3FB /* DragRightDismissInteractor.swift */,
+			);
+			name = "Drag Dismissible";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,13 +367,17 @@
 				B68243551E592BB00011350B /* UIDevice+Util.swift in Sources */,
 				B682438A1E5AC2880011350B /* EmptyStateView.swift in Sources */,
 				B68243131E58E1CB0011350B /* AppDelegate.swift in Sources */,
+				B697074D1E5B94850034A3FB /* DragRightDismissInteractor.swift in Sources */,
 				B68243451E5927C20011350B /* PresentableController.swift in Sources */,
 				B682432F1E5913C50011350B /* MyManagedObjectProtocol.swift in Sources */,
 				B68243601E5AB1BF0011350B /* Number+Util.swift in Sources */,
 				B68243821E5ABCA40011350B /* FetchSession+Static.swift in Sources */,
 				B68243661E5AB9300011350B /* Model.xcdatamodeld in Sources */,
 				B68243481E5927E60011350B /* UIViewController+Util.swift in Sources */,
+				B69707491E5B94750034A3FB /* DragUpDismissInteractor.swift in Sources */,
+				B69707431E5B943F0034A3FB /* MyInteractor.swift in Sources */,
 				B68243511E5929F80011350B /* MyCollectionViewController.swift in Sources */,
+				B697074B1E5B947D0034A3FB /* DragLeftDismissInteractor.swift in Sources */,
 				B68243861E5AC25F0011350B /* EmptyStateDelegate.swift in Sources */,
 				B682433D1E5918B60011350B /* FetchSession.swift in Sources */,
 				B682433B1E5918B60011350B /* FetchEvent.swift in Sources */,
@@ -355,8 +385,10 @@
 				B682432A1E58F1F70011350B /* MyClassProtocol.swift in Sources */,
 				B682438D1E5AC4380011350B /* ItemsReloadable.swift in Sources */,
 				B68243431E59279F0011350B /* MyViewControllerIdentifierProtocol.swift in Sources */,
+				B697073B1E5B8CAC0034A3FB /* MyPresentationManager.swift in Sources */,
 				B68243801E5ABC700011350B /* Global+Static.swift in Sources */,
 				B682433F1E5918B60011350B /* Global.swift in Sources */,
+				B69707471E5B94650034A3FB /* DragDownDismissInteractor.swift in Sources */,
 				B68243581E592BFE0011350B /* LeftMenuPresentationManager.swift in Sources */,
 				B682434D1E5929D90011350B /* MyViewController.swift in Sources */,
 				B68243841E5ABCD70011350B /* FetchEvent+Static.swift in Sources */,

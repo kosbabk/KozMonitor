@@ -20,15 +20,16 @@ protocol PresentableController {
 
 extension PresentableController where Self : UIViewController {
   
-  mutating func presentControllerIn(_ presentingController: UIViewController, forMode mode: PresentationMode, inNavigationController: Bool = true, completion: (() -> Void)? = nil) {
-    self.presentedMode = mode
+  mutating func presentControllerIn(_ presentingController: UIViewController, forMode mode: PresentationMode, inNavigationController: Bool = true, isDragDismissable: Bool = false, completion: (() -> Void)? = nil) {
     
     // Configure this presented controller
+    self.presentedMode = mode
     self.hidesBottomBarWhenPushed = true
     self.navigationItem.backBarButtonItem = UIBarButtonItem(text: "", target: nil, action: nil)
     let presentedController: UIViewController = mode != .navStack && inNavigationController ? MyNavigationController(rootViewController: self) : self
     var presentedPresentableController: PresentableController? = presentedController as? PresentableController
     
+    // Present this presented controller
     switch mode {
       
     case .modal:
@@ -43,7 +44,7 @@ extension PresentableController where Self : UIViewController {
       break
       
     case .leftMenu:
-      let presentationManager = LeftMenuPresentationManager()
+      let presentationManager = isDragDismissable ? LeftMenuPresentationManager(dismissInteractor: DragLeftDismissInteractor(interactiveController: presentedController)) : LeftMenuPresentationManager()
       presentedController.modalPresentationStyle = .custom
       presentedController.modalPresentationCapturesStatusBarAppearance = true
       presentedController.transitioningDelegate = presentationManager
