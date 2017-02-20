@@ -25,6 +25,7 @@ class LeftMenuPresentationManager : NSObject, UIViewControllerTransitioningDeleg
     return LeftMenuAnimator()
   }
   
+  
   // MARK: - Animator
   
   class LeftMenuAnimator : NSObject, UIViewControllerAnimatedTransitioning {
@@ -67,7 +68,7 @@ class LeftMenuPresentationManager : NSObject, UIViewControllerTransitioningDeleg
           presentedViewController.view.frame.origin.x -= presentedWidth
           
         }, completion: { (_) in
-          transitionContext.completeTransition(true)
+          transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         })
       }
     }

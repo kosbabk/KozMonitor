@@ -77,7 +77,7 @@
 		B68243851E5AC25F0011350B /* EmptyStateDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateDelegate.swift; sourceTree = "<group>"; };
 		B68243881E5AC2880011350B /* EmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		B682438C1E5AC4380011350B /* ItemsReloadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsReloadable.swift; sourceTree = "<group>"; };
-		B682438E1E5AC49F0011350B /* EmptyStateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EmptyStateView.xib; path = ../EmptyStateView.xib; sourceTree = "<group>"; };
+		B682438E1E5AC49F0011350B /* EmptyStateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyStateView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,9 +162,9 @@
 		B68243281E58F1EC0011350B /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				B68243441E5927C20011350B /* PresentableController.swift */,
 				B68243291E58F1F70011350B /* MyClassProtocol.swift */,
 				B68243421E59279F0011350B /* MyViewControllerIdentifierProtocol.swift */,
-				B68243441E5927C20011350B /* PresentableController.swift */,
 				B682438C1E5AC4380011350B /* ItemsReloadable.swift */,
 				B68243851E5AC25F0011350B /* EmptyStateDelegate.swift */,
 			);

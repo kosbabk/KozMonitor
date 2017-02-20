@@ -20,46 +20,44 @@ protocol PresentableController {
 
 extension PresentableController where Self : UIViewController {
   
-  mutating func presentControllerIn(_ parentController: UIViewController, forMode mode: PresentationMode, inNavigationController: Bool = true, completion: (() -> Void)? = nil) {
+  mutating func presentControllerIn(_ presentingController: UIViewController, forMode mode: PresentationMode, inNavigationController: Bool = true, completion: (() -> Void)? = nil) {
     self.presentedMode = mode
-    self.configureBackButtonItem(parentController: parentController)
+    
+    // Configure this presented controller
+    self.hidesBottomBarWhenPushed = true
+    self.navigationItem.backBarButtonItem = UIBarButtonItem(text: "", target: nil, action: nil)
+    let presentedController: UIViewController = mode != .navStack && inNavigationController ? MyNavigationController(rootViewController: self) : self
+    var presentedPresentableController: PresentableController? = presentedController as? PresentableController
     
     switch mode {
       
     case .modal:
-      let viewController = inNavigationController ? MyNavigationController(rootViewController: self) : self
       if UIDevice.isPhone {
-        viewController.modalTransitionStyle = .coverVertical
-        viewController.modalPresentationStyle = .overFullScreen
-        viewController.modalPresentationCapturesStatusBarAppearance = true
+        presentedController.modalTransitionStyle = .coverVertical
+        presentedController.modalPresentationStyle = .overFullScreen
+        presentedController.modalPresentationCapturesStatusBarAppearance = true
       } else {
-        viewController.modalPresentationStyle = .formSheet
+        presentedController.modalPresentationStyle = .formSheet
       }
-      parentController.present(viewController, animated: true, completion: completion)
+      presentingController.present(presentedController, animated: true, completion: completion)
       break
       
     case .leftMenu:
-      let viewController = inNavigationController ? MyNavigationController(rootViewController: self) : self
-      viewController.modalPresentationStyle = .custom
-      viewController.modalPresentationCapturesStatusBarAppearance = true
-      let manager = LeftMenuPresentationManager()
-      if viewController is PresentableController {
-        var presentableController = viewController as! PresentableController
-        presentableController.transitioningDelegateReference = manager
-      }
-      viewController.transitioningDelegate = manager
-      parentController.present(viewController, animated: true, completion: completion)
+      let presentationManager = LeftMenuPresentationManager()
+      presentedController.modalPresentationStyle = .custom
+      presentedController.modalPresentationCapturesStatusBarAppearance = true
+      presentedController.transitioningDelegate = presentationManager
+      presentedPresentableController?.transitioningDelegateReference = presentationManager
+      presentingController.present(presentedController, animated: true, completion: completion)
       
     case .overCurrentContext:
-      let viewController = inNavigationController ? MyNavigationController(rootViewController: self) : self
-      viewController.modalPresentationStyle = .overCurrentContext
-      viewController.modalTransitionStyle = .crossDissolve
-      parentController.present(viewController, animated: true, completion: completion)
+      presentedController.modalPresentationStyle = .overCurrentContext
+      presentedController.modalTransitionStyle = .crossDissolve
+      presentingController.present(presentedController, animated: true, completion: completion)
       break
       
     case .navStack:
-      self.hidesBottomBarWhenPushed = true
-      parentController.navigationController?.pushViewController(self, animated: true)
+      presentingController.navigationController?.pushViewController(presentedController, animated: true)
       completion?()
       break
     }
@@ -80,10 +78,5 @@ extension PresentableController where Self : UIViewController {
       self.presentingViewController?.dismiss(animated: true, completion: completion)
       break
     }
-  }
-  
-  private func configureBackButtonItem(parentController: UIViewController) {
-    self.navigationItem.backBarButtonItem = UIBarButtonItem(text: "", target: nil, action: nil)
-    parentController.navigationItem.backBarButtonItem = UIBarButtonItem(text: "", target: nil, action: nil)
   }
 }
