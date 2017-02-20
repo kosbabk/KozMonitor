@@ -36,6 +36,10 @@
 		B68243801E5ABC700011350B /* Global+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682437F1E5ABC700011350B /* Global+Static.swift */; };
 		B68243821E5ABCA40011350B /* FetchSession+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243811E5ABCA40011350B /* FetchSession+Static.swift */; };
 		B68243841E5ABCD70011350B /* FetchEvent+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243831E5ABCD70011350B /* FetchEvent+Static.swift */; };
+		B68243861E5AC25F0011350B /* EmptyStateDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243851E5AC25F0011350B /* EmptyStateDelegate.swift */; };
+		B682438A1E5AC2880011350B /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243881E5AC2880011350B /* EmptyStateView.swift */; };
+		B682438D1E5AC4380011350B /* ItemsReloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682438C1E5AC4380011350B /* ItemsReloadable.swift */; };
+		B682438F1E5AC49F0011350B /* EmptyStateView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B682438E1E5AC49F0011350B /* EmptyStateView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +74,10 @@
 		B682437F1E5ABC700011350B /* Global+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Global+Static.swift"; sourceTree = "<group>"; };
 		B68243811E5ABCA40011350B /* FetchSession+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FetchSession+Static.swift"; sourceTree = "<group>"; };
 		B68243831E5ABCD70011350B /* FetchEvent+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FetchEvent+Static.swift"; sourceTree = "<group>"; };
+		B68243851E5AC25F0011350B /* EmptyStateDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateDelegate.swift; sourceTree = "<group>"; };
+		B68243881E5AC2880011350B /* EmptyStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		B682438C1E5AC4380011350B /* ItemsReloadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemsReloadable.swift; sourceTree = "<group>"; };
+		B682438E1E5AC49F0011350B /* EmptyStateView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EmptyStateView.xib; path = ../EmptyStateView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				B68243161E58E1CB0011350B /* Main.storyboard */,
+				B68243871E5AC27B0011350B /* Empty State */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -156,6 +165,8 @@
 				B68243291E58F1F70011350B /* MyClassProtocol.swift */,
 				B68243421E59279F0011350B /* MyViewControllerIdentifierProtocol.swift */,
 				B68243441E5927C20011350B /* PresentableController.swift */,
+				B682438C1E5AC4380011350B /* ItemsReloadable.swift */,
+				B68243851E5AC25F0011350B /* EmptyStateDelegate.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -214,6 +225,15 @@
 				B68243571E592BFE0011350B /* LeftMenuPresentationManager.swift */,
 			);
 			name = CustomTransitions;
+			sourceTree = "<group>";
+		};
+		B68243871E5AC27B0011350B /* Empty State */ = {
+			isa = PBXGroup;
+			children = (
+				B68243881E5AC2880011350B /* EmptyStateView.swift */,
+				B682438E1E5AC49F0011350B /* EmptyStateView.xib */,
+			);
+			name = "Empty State";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,6 +304,7 @@
 			files = (
 				B682431D1E58E1CB0011350B /* LaunchScreen.storyboard in Resources */,
 				B682431A1E58E1CB0011350B /* Assets.xcassets in Resources */,
+				B682438F1E5AC49F0011350B /* EmptyStateView.xib in Resources */,
 				B68243181E58E1CB0011350B /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,6 +339,7 @@
 				B68243531E592A020011350B /* MyNavigationController.swift in Sources */,
 				B682434F1E5929F10011350B /* MyTableViewController.swift in Sources */,
 				B68243551E592BB00011350B /* UIDevice+Util.swift in Sources */,
+				B682438A1E5AC2880011350B /* EmptyStateView.swift in Sources */,
 				B68243131E58E1CB0011350B /* AppDelegate.swift in Sources */,
 				B68243451E5927C20011350B /* PresentableController.swift in Sources */,
 				B682432F1E5913C50011350B /* MyManagedObjectProtocol.swift in Sources */,
@@ -326,10 +348,12 @@
 				B68243661E5AB9300011350B /* Model.xcdatamodeld in Sources */,
 				B68243481E5927E60011350B /* UIViewController+Util.swift in Sources */,
 				B68243511E5929F80011350B /* MyCollectionViewController.swift in Sources */,
+				B68243861E5AC25F0011350B /* EmptyStateDelegate.swift in Sources */,
 				B682433D1E5918B60011350B /* FetchSession.swift in Sources */,
 				B682433B1E5918B60011350B /* FetchEvent.swift in Sources */,
 				B682435A1E5933250011350B /* UIBarButtonItem+Util.swift in Sources */,
 				B682432A1E58F1F70011350B /* MyClassProtocol.swift in Sources */,
+				B682438D1E5AC4380011350B /* ItemsReloadable.swift in Sources */,
 				B68243431E59279F0011350B /* MyViewControllerIdentifierProtocol.swift in Sources */,
 				B68243801E5ABC700011350B /* Global+Static.swift in Sources */,
 				B682433F1E5918B60011350B /* Global.swift in Sources */,

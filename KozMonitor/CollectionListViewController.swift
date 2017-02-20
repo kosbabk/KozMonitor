@@ -34,7 +34,7 @@ class CollectionListElementCell : UITableViewCell {
   }
 }
 
-class CollectionListViewController : MyTableViewController, NSFetchedResultsControllerDelegate {
+class CollectionListViewController : MyTableViewController, ItemsReloadable, NSFetchedResultsControllerDelegate {
   
   // MARK: - Class Accessors
   
@@ -47,6 +47,8 @@ class CollectionListViewController : MyTableViewController, NSFetchedResultsCont
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    self.title = "Sessions"
+    
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icSettingsMenu"), target: self, action: #selector(self.openSettingsMenu))
     
     self.buildFetchedResultsController()
@@ -55,7 +57,7 @@ class CollectionListViewController : MyTableViewController, NSFetchedResultsCont
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    self.reloadContent()
+    self.reloadItems()
   }
   
   // MARK: - Actions
@@ -82,11 +84,7 @@ class CollectionListViewController : MyTableViewController, NSFetchedResultsCont
   
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     
-    self.reloadContent()
-  }
-  
-  func reloadContent() {
-    self.tableView.reloadData()
+    self.reloadItems()
   }
   
   // MARK: - UITableView Helpers
@@ -116,3 +114,28 @@ class CollectionListViewController : MyTableViewController, NSFetchedResultsCont
     return cell
   }
 }
+
+//extension CollectionListViewController : EmptyStateDelegate {
+//  
+//  var emptyStateTitle: String {
+//    return "None"
+//  }
+//  
+//  var emptyStateMessage: String {
+//    return "In the Settings app make sure Background App Refresh is enabled for this app. Once enabled, this app will perform background fetches and update the content of the applications. Check back periodically to check the status of the background fetches."
+//  }
+//  
+//  var emptyStateImage: UIImage? {
+//    return nil
+//  }
+//  
+//  var emptyStateButtonTitle: String? {
+//    return "Open Settings"
+//  }
+//  
+//  func emptyStateButtonSelected() {
+//    if let settingsUrl = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(settingsUrl) {
+//      UIApplication.shared.open(settingsUrl, completionHandler: nil)
+//    }
+//  }
+//}
