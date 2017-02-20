@@ -86,7 +86,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   // MARK: - Background App Refresh
   
   private func setBackgroundFetchInterval(application: UIApplication) {
-    application.setMinimumBackgroundFetchInterval(TimeInterval(Global.shared.backgroundFetchInterval))
+    application.setMinimumBackgroundFetchInterval(TimeInterval(Global.shared.backgroundFetchIntervalSeconds))
   }
 
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -127,6 +127,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Execute background task completion handler
         completionHandler(.newData)
+        self.setBackgroundFetchInterval(application: application)
       })
       dataTask.resume()
     }

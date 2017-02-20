@@ -256,7 +256,7 @@ extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource 
     let interval = self.fetchIntervals[row]
     Global.shared.backgroundFetchInterval = interval
     MyDataManager.shared.saveMainContext()
-    UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(interval))
+    UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(Global.shared.backgroundFetchIntervalSeconds))
     self.reloadContent()
   }
 }
