@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    Global.shared.activeCollection = nil
+    Global.shared.activeSession = nil
     MyDataManager.shared.saveMainContext()
     
     // Set minimum background fetch interval
@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationDidBecomeActive(_ application: UIApplication) {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    Global.shared.activeCollection = nil
+    Global.shared.activeSession = nil
     MyDataManager.shared.saveMainContext()
   }
 
@@ -91,8 +91,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
-    let activeCollection = Global.shared.activeCollection ?? FetchEventCollection.createOrUpdate(startDate: Date(), selectedFetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
-    Global.shared.activeCollection = activeCollection
+    let activeSession = Global.shared.activeSession ?? FetchSession.createOrUpdate(startDate: Date(), selectedFetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+    Global.shared.activeSession = activeSession
     MyDataManager.shared.saveMainContext()
     
     let configuration = URLSessionConfiguration.default
@@ -105,7 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Save the fetch event
         let processingTime = Date().timeIntervalSince(startTime)
         let bytesProcessed = data?.count ?? 0
-        _ = FetchEvent.createOrUpdate(date: Date(), processingTime: processingTime, bytesProcessed: bytesProcessed, collection: activeCollection)
+        _ = FetchEvent.createOrUpdate(date: Date(), processingTime: processingTime, bytesProcessed: bytesProcessed, session: activeSession)
         MyDataManager.shared.saveMainContext()
         
         if Global.shared.notificationsEnabled {
@@ -113,15 +113,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
           // Create local notification
           let content = UNMutableNotificationContent()
           content.title = "Background Event Triggered"
-          if let averageMinutes = activeCollection.averageFetchInterval {
-            let averageString = averageMinutes < 0 ? "\((averageMinutes * 60).twoDecimals))s" : "\(averageMinutes.twoDecimals)m"
-            content.body = "Current average fetch interval: \(averageString) (\(activeCollection.selectedFetchInterval)m expected)"
+          if let averageMinutes = activeSession.averageFetchInterval {
+            let averageString = averageMinutes < 2 ? "\((averageMinutes * 60).twoDecimals)s" : "\(averageMinutes.twoDecimals)m"
+            content.body = "Current average fetch interval: \(averageString) (\(activeSession.selectedFetchInterval)m expected)"
           } else {
-            content.body = "Currently expecting an interval of \(activeCollection.selectedFetchInterval)m"
+            content.body = "Currently expecting an interval of \(activeSession.selectedFetchInterval)m"
           }
           //content.sound = UNNotificationSound.default()
           let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
-          let request = UNNotificationRequest(identifier: "KozMonitor.FetchEvent", content: content, trigger: trigger)
+          let request = UNNotificationRequest(identifier: "KozMonitor.BackgroundFetchEvent", content: content, trigger: trigger)
           UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
         }
         

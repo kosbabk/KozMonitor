@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="FetchEvent" representedClassName="FetchEvent" elementID="date" syncable="YES" codeGenerationType="class">
+        <attribute name="bytesProcessedValue" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="dateNSDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="processingTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="collection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FetchEventCollection" inverseName="eventsSet" inverseEntity="FetchEventCollection" syncable="YES"/>
+    </entity>
+    <entity name="FetchEventCollection" representedClassName="FetchEventCollection" elementID="startDate" syncable="YES" codeGenerationType="class">
+        <attribute name="requestPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="selectedFetchIntervalValue" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="startDateNSDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <relationship name="eventsSet" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FetchEvent" inverseName="collection" inverseEntity="FetchEvent" syncable="YES"/>
+        <relationship name="globalReference" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Global" inverseName="activeCollection" inverseEntity="Global" syncable="YES"/>
+    </entity>
+    <entity name="Global" representedClassName="Global" syncable="YES" codeGenerationType="class">
+        <attribute name="backgroundFetchIntervalValue" optional="YES" attributeType="Integer 32" defaultValueString="5" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="notificationsEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="requestPath" optional="YES" attributeType="String" defaultValueString="https://drive.google.com/file/d/0B9d8mSgLHrTVbGR2MW5vdUJsUUE/view?usp=sharing" syncable="YES"/>
+        <relationship name="activeCollection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FetchEventCollection" inverseName="globalReference" inverseEntity="FetchEventCollection" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="FetchEvent" positionX="-54" positionY="0" width="128" height="105"/>
+        <element name="FetchEventCollection" positionX="-36" positionY="27" width="128" height="120"/>
+        <element name="Global" positionX="-63" positionY="-18" width="128" height="105"/>
+    </elements>
+</model>

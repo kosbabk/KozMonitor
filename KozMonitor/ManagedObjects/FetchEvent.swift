@@ -10,9 +10,16 @@
 import Foundation
 import CoreData
 
-extension FetchEvent : MyManagedObjectProtocol {
+extension FetchEvent {
   
-  // MARK: - Properties
+  var date: Date? {
+    get {
+      return self.dateNSDate as? Date
+    }
+    set {
+      self.dateNSDate = newValue as NSDate?
+    }
+  }
   
   var bytesProcessed: Int {
     get {
@@ -22,37 +29,5 @@ extension FetchEvent : MyManagedObjectProtocol {
       self.bytesProcessedValue = Int64(newValue)
     }
   }
-  
-  // MARK: - MyManagedObjectProtocol
-  
-  static var sortDescriptors: [NSSortDescriptor]? {
-    return [ NSSortDescriptor(key: "date", ascending: true) ]
-  }
-  
-  // MARK: - Fetch
-  
-  static func fetch(date: Date) -> FetchEvent? {
-    let predicate = NSPredicate(format: "date == %@", date as NSDate)
-    return self.fetchOne(predicate: predicate)
-  }
-  
-  // MARK: - Create / Update
-  
-  static func createOrUpdate(date: Date, processingTime: Double, bytesProcessed: Int, collection: FetchEventCollection? = nil) -> FetchEvent {
-    let object = self.fetch(date: date) ?? self.create()
-    object.date = date as NSDate
-    object.processingTime = processingTime
-    object.bytesProcessed = bytesProcessed
-    if let collection = collection {
-      object.collection = collection
-    }
-    return object
-  }
-  
-  // MARK: - Fetched Results Controller
-  
-  static func newFetchedResultsController2(collection: FetchEventCollection) -> NSFetchedResultsController<FetchEvent>? {
-    let predicate = NSPredicate(format: "collection = %@", collection)
-    return self.newFetchedResultsController(predicate: predicate)
-  }
+
 }

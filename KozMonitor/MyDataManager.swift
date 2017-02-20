@@ -29,7 +29,7 @@ class MyDataManager: NSObject {
   
   // MARK: - Store Properties
   
-  private let persistentContainerName = "KozMonitor"
+  private let persistentContainerName = "Model"
   
   private lazy var persistentContainer: NSPersistentContainer = {
     /*

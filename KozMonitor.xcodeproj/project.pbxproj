@@ -14,9 +14,8 @@
 		B682432A1E58F1F70011350B /* MyClassProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243291E58F1F70011350B /* MyClassProtocol.swift */; };
 		B682432D1E5913980011350B /* MyDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682432C1E5913980011350B /* MyDataManager.swift */; };
 		B682432F1E5913C50011350B /* MyManagedObjectProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682432E1E5913C50011350B /* MyManagedObjectProtocol.swift */; };
-		B68243331E59171F0011350B /* KozMonitor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B68243311E59171F0011350B /* KozMonitor.xcdatamodeld */; };
 		B682433B1E5918B60011350B /* FetchEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243351E5918B60011350B /* FetchEvent.swift */; };
-		B682433D1E5918B60011350B /* FetchEventCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243371E5918B60011350B /* FetchEventCollection.swift */; };
+		B682433D1E5918B60011350B /* FetchSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243371E5918B60011350B /* FetchSession.swift */; };
 		B682433F1E5918B60011350B /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243391E5918B60011350B /* Global.swift */; };
 		B68243411E5927640011350B /* CollectionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243401E5927640011350B /* CollectionListViewController.swift */; };
 		B68243431E59279F0011350B /* MyViewControllerIdentifierProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243421E59279F0011350B /* MyViewControllerIdentifierProtocol.swift */; };
@@ -32,6 +31,11 @@
 		B682435A1E5933250011350B /* UIBarButtonItem+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243591E5933250011350B /* UIBarButtonItem+Util.swift */; };
 		B682435C1E5A02C00011350B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682435B1E5A02C00011350B /* SettingsViewController.swift */; };
 		B68243601E5AB1BF0011350B /* Number+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682435F1E5AB1BF0011350B /* Number+Util.swift */; };
+		B68243621E5AB2E20011350B /* Date+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243611E5AB2E20011350B /* Date+Util.swift */; };
+		B68243661E5AB9300011350B /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B68243641E5AB9300011350B /* Model.xcdatamodeld */; };
+		B68243801E5ABC700011350B /* Global+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682437F1E5ABC700011350B /* Global+Static.swift */; };
+		B68243821E5ABCA40011350B /* FetchSession+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243811E5ABCA40011350B /* FetchSession+Static.swift */; };
+		B68243841E5ABCD70011350B /* FetchEvent+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243831E5ABCD70011350B /* FetchEvent+Static.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,9 +48,8 @@
 		B68243291E58F1F70011350B /* MyClassProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyClassProtocol.swift; sourceTree = "<group>"; };
 		B682432C1E5913980011350B /* MyDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDataManager.swift; sourceTree = "<group>"; };
 		B682432E1E5913C50011350B /* MyManagedObjectProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyManagedObjectProtocol.swift; sourceTree = "<group>"; };
-		B68243321E59171F0011350B /* KozMonitor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KozMonitor.xcdatamodel; sourceTree = "<group>"; };
 		B68243351E5918B60011350B /* FetchEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchEvent.swift; path = ManagedObjects/FetchEvent.swift; sourceTree = "<group>"; };
-		B68243371E5918B60011350B /* FetchEventCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchEventCollection.swift; path = ManagedObjects/FetchEventCollection.swift; sourceTree = "<group>"; };
+		B68243371E5918B60011350B /* FetchSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FetchSession.swift; path = ManagedObjects/FetchSession.swift; sourceTree = "<group>"; };
 		B68243391E5918B60011350B /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Global.swift; path = ManagedObjects/Global.swift; sourceTree = "<group>"; };
 		B68243401E5927640011350B /* CollectionListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionListViewController.swift; sourceTree = "<group>"; };
 		B68243421E59279F0011350B /* MyViewControllerIdentifierProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyViewControllerIdentifierProtocol.swift; sourceTree = "<group>"; };
@@ -61,8 +64,12 @@
 		B68243571E592BFE0011350B /* LeftMenuPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftMenuPresentationManager.swift; sourceTree = "<group>"; };
 		B68243591E5933250011350B /* UIBarButtonItem+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Util.swift"; sourceTree = "<group>"; };
 		B682435B1E5A02C00011350B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		B682435E1E5A3A4C0011350B /* KozMonitor 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "KozMonitor 2.xcdatamodel"; sourceTree = "<group>"; };
 		B682435F1E5AB1BF0011350B /* Number+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Number+Util.swift"; sourceTree = "<group>"; };
+		B68243611E5AB2E20011350B /* Date+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Util.swift"; sourceTree = "<group>"; };
+		B68243651E5AB9300011350B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		B682437F1E5ABC700011350B /* Global+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Global+Static.swift"; sourceTree = "<group>"; };
+		B68243811E5ABCA40011350B /* FetchSession+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FetchSession+Static.swift"; sourceTree = "<group>"; };
+		B68243831E5ABCD70011350B /* FetchEvent+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FetchEvent+Static.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +163,7 @@
 		B682432B1E5913870011350B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B68243311E59171F0011350B /* KozMonitor.xcdatamodeld */,
+				B68243641E5AB9300011350B /* Model.xcdatamodeld */,
 				B682432C1E5913980011350B /* MyDataManager.swift */,
 				B682432E1E5913C50011350B /* MyManagedObjectProtocol.swift */,
 				B68243301E5917080011350B /* Managed Objects */,
@@ -167,8 +174,11 @@
 		B68243301E5917080011350B /* Managed Objects */ = {
 			isa = PBXGroup;
 			children = (
+				B682437F1E5ABC700011350B /* Global+Static.swift */,
 				B68243391E5918B60011350B /* Global.swift */,
-				B68243371E5918B60011350B /* FetchEventCollection.swift */,
+				B68243811E5ABCA40011350B /* FetchSession+Static.swift */,
+				B68243371E5918B60011350B /* FetchSession.swift */,
+				B68243831E5ABCD70011350B /* FetchEvent+Static.swift */,
 				B68243351E5918B60011350B /* FetchEvent.swift */,
 			);
 			name = "Managed Objects";
@@ -182,6 +192,7 @@
 				B68243541E592BB00011350B /* UIDevice+Util.swift */,
 				B68243591E5933250011350B /* UIBarButtonItem+Util.swift */,
 				B682435F1E5AB1BF0011350B /* Number+Util.swift */,
+				B68243611E5AB2E20011350B /* Date+Util.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -310,18 +321,22 @@
 				B68243131E58E1CB0011350B /* AppDelegate.swift in Sources */,
 				B68243451E5927C20011350B /* PresentableController.swift in Sources */,
 				B682432F1E5913C50011350B /* MyManagedObjectProtocol.swift in Sources */,
-				B68243331E59171F0011350B /* KozMonitor.xcdatamodeld in Sources */,
 				B68243601E5AB1BF0011350B /* Number+Util.swift in Sources */,
+				B68243821E5ABCA40011350B /* FetchSession+Static.swift in Sources */,
+				B68243661E5AB9300011350B /* Model.xcdatamodeld in Sources */,
 				B68243481E5927E60011350B /* UIViewController+Util.swift in Sources */,
 				B68243511E5929F80011350B /* MyCollectionViewController.swift in Sources */,
-				B682433D1E5918B60011350B /* FetchEventCollection.swift in Sources */,
+				B682433D1E5918B60011350B /* FetchSession.swift in Sources */,
 				B682433B1E5918B60011350B /* FetchEvent.swift in Sources */,
 				B682435A1E5933250011350B /* UIBarButtonItem+Util.swift in Sources */,
 				B682432A1E58F1F70011350B /* MyClassProtocol.swift in Sources */,
 				B68243431E59279F0011350B /* MyViewControllerIdentifierProtocol.swift in Sources */,
+				B68243801E5ABC700011350B /* Global+Static.swift in Sources */,
 				B682433F1E5918B60011350B /* Global.swift in Sources */,
 				B68243581E592BFE0011350B /* LeftMenuPresentationManager.swift in Sources */,
 				B682434D1E5929D90011350B /* MyViewController.swift in Sources */,
+				B68243841E5ABCD70011350B /* FetchEvent+Static.swift in Sources */,
+				B68243621E5AB2E20011350B /* Date+Util.swift in Sources */,
 				B682432D1E5913980011350B /* MyDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -491,14 +506,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B68243311E59171F0011350B /* KozMonitor.xcdatamodeld */ = {
+		B68243641E5AB9300011350B /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B682435E1E5A3A4C0011350B /* KozMonitor 2.xcdatamodel */,
-				B68243321E59171F0011350B /* KozMonitor.xcdatamodel */,
+				B68243651E5AB9300011350B /* Model.xcdatamodel */,
 			);
-			currentVersion = B682435E1E5A3A4C0011350B /* KozMonitor 2.xcdatamodel */;
-			path = KozMonitor.xcdatamodeld;
+			currentVersion = B68243651E5AB9300011350B /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

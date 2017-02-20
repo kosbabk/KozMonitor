@@ -1,5 +1,5 @@
 //
-//  FetchEventCollection.swift
+//  FetchSession.swift
 //  KozMonitor
 //
 //  Created by Kelvin Kosbab on 2/18/17.
@@ -10,9 +10,16 @@
 import Foundation
 import CoreData
 
-extension FetchEventCollection : MyManagedObjectProtocol {
+extension FetchSession {
   
-  // MARK: - Properties
+  var startDate: Date? {
+    get {
+      return self.startDateNSDate as? Date
+    }
+    set {
+      self.startDateNSDate = newValue as NSDate?
+    }
+  }
   
   var selectedFetchInterval: Int {
     set {
@@ -51,28 +58,5 @@ extension FetchEventCollection : MyManagedObjectProtocol {
     }
     let averageSecondsPerFetch = currentTimeInterval / Double(totalCalculations)
     return averageSecondsPerFetch / 60
-  }
-  
-  // MARK: - MyManagedObjectProtocol
-  
-  static var sortDescriptors: [NSSortDescriptor]? {
-    return [ NSSortDescriptor(key: "startDate", ascending: true) ]
-  }
-
-  // MARK: - Fetch
-  
-  static func fetch(startDate: Date) -> FetchEventCollection? {
-    let predicate = NSPredicate(format: "startDate == %@", startDate as NSDate)
-    return self.fetchOne(predicate: predicate)
-  }
-  
-  // MARK: - Create / Update
-  
-  static func createOrUpdate(startDate: Date, selectedFetchInterval: Int, requestPath: String?) -> FetchEventCollection {
-    let object = self.fetch(startDate: startDate) ?? self.create()
-    object.startDate = startDate as NSDate
-    object.selectedFetchInterval = selectedFetchInterval
-    object.requestPath = requestPath
-    return object
   }
 }

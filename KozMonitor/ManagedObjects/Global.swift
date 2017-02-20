@@ -10,21 +10,7 @@
 import Foundation
 import CoreData
 
-extension Global : MyManagedObjectProtocol {
-  
-  // MARK: - MyManagedObjectProtocol
-  
-  static var sortDescriptors: [NSSortDescriptor]? {
-    return nil
-  }
-
-  // MARK: - Singleton
-  
-  static var shared: Global {
-    return self.fetchOne() ?? self.create()
-  }
-  
-  // MARK: - Properties
+extension Global {
   
   var backgroundFetchInterval: Int {
     set {

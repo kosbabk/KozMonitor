@@ -226,13 +226,55 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="9Rp-gb-Tzb">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CollectionListElementCell" id="9Rp-gb-Tzb" customClass="CollectionListElementCell" customModule="KozMonitor" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Rp-gb-Tzb" id="iHf-WE-RTM">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hrl-D8-6FN">
+                                            <rect key="frame" x="10" y="4" width="89" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wx5-uX-qzm">
+                                            <rect key="frame" x="286" y="6" width="79" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h03-5D-FEs">
+                                            <rect key="frame" x="286" y="22" width="79" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6b-8Y-WEV">
+                                            <rect key="frame" x="10" y="22" width="78.5" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Hrl-D8-6FN" firstAttribute="bottom" secondItem="iHf-WE-RTM" secondAttribute="centerY" id="MbA-Pz-Gd8"/>
+                                        <constraint firstItem="h03-5D-FEs" firstAttribute="top" secondItem="iHf-WE-RTM" secondAttribute="centerY" id="T99-Ha-EJG"/>
+                                        <constraint firstItem="v6b-8Y-WEV" firstAttribute="top" secondItem="iHf-WE-RTM" secondAttribute="centerY" id="Uh6-bh-FHP"/>
+                                        <constraint firstAttribute="trailing" secondItem="Wx5-uX-qzm" secondAttribute="trailing" constant="10" id="aSU-UY-Gli"/>
+                                        <constraint firstItem="Wx5-uX-qzm" firstAttribute="bottom" secondItem="iHf-WE-RTM" secondAttribute="centerY" id="eLH-7z-hp2"/>
+                                        <constraint firstItem="Hrl-D8-6FN" firstAttribute="leading" secondItem="iHf-WE-RTM" secondAttribute="leading" constant="10" id="mYm-gz-d77"/>
+                                        <constraint firstItem="v6b-8Y-WEV" firstAttribute="leading" secondItem="iHf-WE-RTM" secondAttribute="leading" constant="10" id="ofF-Xb-xp4"/>
+                                        <constraint firstAttribute="trailing" secondItem="h03-5D-FEs" secondAttribute="trailing" constant="10" id="wLl-Va-zcs"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="averageFetchTimeLabel" destination="h03-5D-FEs" id="etp-j7-E2N"/>
+                                    <outlet property="expectedIntervalLabel" destination="Wx5-uX-qzm" id="v1Z-Fp-rmP"/>
+                                    <outlet property="numberFetchEventsLabel" destination="v6b-8Y-WEV" id="en0-fB-G67"/>
+                                    <outlet property="titleLabel" destination="Hrl-D8-6FN" id="xLj-fT-lpV"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
