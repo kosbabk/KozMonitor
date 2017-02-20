@@ -31,6 +31,7 @@
 		B68243581E592BFE0011350B /* LeftMenuPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243571E592BFE0011350B /* LeftMenuPresentationManager.swift */; };
 		B682435A1E5933250011350B /* UIBarButtonItem+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68243591E5933250011350B /* UIBarButtonItem+Util.swift */; };
 		B682435C1E5A02C00011350B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682435B1E5A02C00011350B /* SettingsViewController.swift */; };
+		B68243601E5AB1BF0011350B /* Number+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B682435F1E5AB1BF0011350B /* Number+Util.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		B68243591E5933250011350B /* UIBarButtonItem+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Util.swift"; sourceTree = "<group>"; };
 		B682435B1E5A02C00011350B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B682435E1E5A3A4C0011350B /* KozMonitor 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "KozMonitor 2.xcdatamodel"; sourceTree = "<group>"; };
+		B682435F1E5AB1BF0011350B /* Number+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Number+Util.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +181,7 @@
 				B68243491E5928010011350B /* UIView+Util.swift */,
 				B68243541E592BB00011350B /* UIDevice+Util.swift */,
 				B68243591E5933250011350B /* UIBarButtonItem+Util.swift */,
+				B682435F1E5AB1BF0011350B /* Number+Util.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				B68243451E5927C20011350B /* PresentableController.swift in Sources */,
 				B682432F1E5913C50011350B /* MyManagedObjectProtocol.swift in Sources */,
 				B68243331E59171F0011350B /* KozMonitor.xcdatamodeld in Sources */,
+				B68243601E5AB1BF0011350B /* Number+Util.swift in Sources */,
 				B68243481E5927E60011350B /* UIViewController+Util.swift in Sources */,
 				B68243511E5929F80011350B /* MyCollectionViewController.swift in Sources */,
 				B682433D1E5918B60011350B /* FetchEventCollection.swift in Sources */,

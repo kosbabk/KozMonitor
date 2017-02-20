@@ -12,6 +12,17 @@ import CoreData
 
 extension FetchEvent : MyManagedObjectProtocol {
   
+  // MARK: - Properties
+  
+  var bytesProcessed: Int {
+    get {
+      return Int(self.bytesProcessedValue)
+    }
+    set {
+      self.bytesProcessedValue = Int64(newValue)
+    }
+  }
+  
   // MARK: - MyManagedObjectProtocol
   
   static var sortDescriptors: [NSSortDescriptor]? {
@@ -27,10 +38,11 @@ extension FetchEvent : MyManagedObjectProtocol {
   
   // MARK: - Create / Update
   
-  static func createOrUpdate(date: Date, processingTime: Double, collection: FetchEventCollection? = nil) -> FetchEvent {
+  static func createOrUpdate(date: Date, processingTime: Double, bytesProcessed: Int, collection: FetchEventCollection? = nil) -> FetchEvent {
     let object = self.fetch(date: date) ?? self.create()
     object.date = date as NSDate
     object.processingTime = processingTime
+    object.bytesProcessed = bytesProcessed
     if let collection = collection {
       object.collection = collection
     }

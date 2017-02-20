@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
-    // Save the context
+    Global.shared.activeCollection = nil
     MyDataManager.shared.saveMainContext()
     
     // Set minimum background fetch interval
@@ -74,6 +74,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func applicationDidBecomeActive(_ application: UIApplication) {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    Global.shared.activeCollection = nil
+    MyDataManager.shared.saveMainContext()
   }
 
   func applicationWillTerminate(_ application: UIApplication) {
@@ -83,24 +86,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   // MARK: - Background App Refresh
   
   private func setBackgroundFetchInterval(application: UIApplication) {
-    let fiveMinutes = TimeInterval(60 * 5)
-    application.setMinimumBackgroundFetchInterval(fiveMinutes)
+    application.setMinimumBackgroundFetchInterval(TimeInterval(Global.shared.backgroundFetchInterval))
   }
 
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-    print("KAK - performFetchWithCompletionHandler")
-    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-      
-      // Create local notification
-      let content = UNMutableNotificationContent()
-      content.title = "Triggered"
-      content.body = "Background process has been triggered"
-      content.sound = UNNotificationSound.default()
-      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
-      let request = UNNotificationRequest(identifier: "MyNotification", content: content, trigger: trigger)
-      UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-      
-      completionHandler(.newData)
+    
+    let activeCollection = Global.shared.activeCollection ?? FetchEventCollection.createOrUpdate(startDate: Date(), selectedFetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+    Global.shared.activeCollection = activeCollection
+    MyDataManager.shared.saveMainContext()
+    
+    let configuration = URLSessionConfiguration.default
+    let session = URLSession(configuration: configuration)
+    let startTime = Date()
+    
+    if let requestPath = Global.shared.requestPath, let requestUrl = URL(string: requestPath) {
+      let dataTask = session.dataTask(with: requestUrl, completionHandler: { (data, urlResponse, error) in
+        
+        // Save the fetch event
+        let processingTime = Date().timeIntervalSince(startTime)
+        let bytesProcessed = data?.count ?? 0
+        _ = FetchEvent.createOrUpdate(date: Date(), processingTime: processingTime, bytesProcessed: bytesProcessed, collection: activeCollection)
+        MyDataManager.shared.saveMainContext()
+        
+        if Global.shared.notificationsEnabled {
+          
+          // Create local notification
+          let content = UNMutableNotificationContent()
+          content.title = "Background Event Triggered"
+          if let averageMinutes = activeCollection.averageFetchInterval {
+            let averageString = averageMinutes < 0 ? "\((averageMinutes * 60).twoDecimals))s" : "\(averageMinutes.twoDecimals)m"
+            content.body = "Current average fetch interval: \(averageString) (\(activeCollection.selectedFetchInterval)m expected)"
+          } else {
+            content.body = "Currently expecting an interval of \(activeCollection.selectedFetchInterval)m"
+          }
+          //content.sound = UNNotificationSound.default()
+          let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+          let request = UNNotificationRequest(identifier: "KozMonitor.FetchEvent", content: content, trigger: trigger)
+          UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        }
+        
+        // Execute background task completion handler
+        completionHandler(.newData)
+      })
+      dataTask.resume()
     }
   }
 }
