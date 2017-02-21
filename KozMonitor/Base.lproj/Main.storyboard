@@ -217,63 +217,54 @@
             </objects>
             <point key="canvasLocation" x="504.80000000000001" y="799.2503748125938"/>
         </scene>
-        <!--Collection List View Controller-->
+        <!--Application Events View Controller-->
         <scene sceneID="Tec-Dy-Tk1">
             <objects>
-                <tableViewController storyboardIdentifier="CollectionListViewController" id="U4Q-Ub-FRa" customClass="CollectionListViewController" customModule="KozMonitor" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Hnp-Cm-GEe">
+                <tableViewController storyboardIdentifier="ApplicationEventsViewController" id="U4Q-Ub-FRa" customClass="ApplicationEventsViewController" customModule="KozMonitor" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Hnp-Cm-GEe">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CollectionListElementCell" id="9Rp-gb-Tzb" customClass="CollectionListElementCell" customModule="KozMonitor" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ApplicationEventCell" id="EhH-iY-9La" customClass="ApplicationEventCell" customModule="KozMonitor" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Rp-gb-Tzb" id="iHf-WE-RTM">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EhH-iY-9La" id="L9V-uJ-Nza">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hrl-D8-6FN">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Vy-Od-G3D">
                                             <rect key="frame" x="10" y="4" width="89" height="18"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wx5-uX-qzm">
-                                            <rect key="frame" x="286" y="6" width="79" height="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Drr-76-i9F">
+                                            <rect key="frame" x="347" y="22" width="18" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h03-5D-FEs">
-                                            <rect key="frame" x="286" y="22" width="79" height="16"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem Ipsum" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6b-8Y-WEV">
-                                            <rect key="frame" x="10" y="22" width="78.5" height="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expecting" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lu9-59-hL0">
+                                            <rect key="frame" x="10" y="22" width="61" height="16"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="Hrl-D8-6FN" firstAttribute="bottom" secondItem="iHf-WE-RTM" secondAttribute="centerY" id="MbA-Pz-Gd8"/>
-                                        <constraint firstItem="h03-5D-FEs" firstAttribute="top" secondItem="iHf-WE-RTM" secondAttribute="centerY" id="T99-Ha-EJG"/>
-                                        <constraint firstItem="v6b-8Y-WEV" firstAttribute="top" secondItem="iHf-WE-RTM" secondAttribute="centerY" id="Uh6-bh-FHP"/>
-                                        <constraint firstAttribute="trailing" secondItem="Wx5-uX-qzm" secondAttribute="trailing" constant="10" id="aSU-UY-Gli"/>
-                                        <constraint firstItem="Wx5-uX-qzm" firstAttribute="bottom" secondItem="iHf-WE-RTM" secondAttribute="centerY" id="eLH-7z-hp2"/>
-                                        <constraint firstItem="Hrl-D8-6FN" firstAttribute="leading" secondItem="iHf-WE-RTM" secondAttribute="leading" constant="10" id="mYm-gz-d77"/>
-                                        <constraint firstItem="v6b-8Y-WEV" firstAttribute="leading" secondItem="iHf-WE-RTM" secondAttribute="leading" constant="10" id="ofF-Xb-xp4"/>
-                                        <constraint firstAttribute="trailing" secondItem="h03-5D-FEs" secondAttribute="trailing" constant="10" id="wLl-Va-zcs"/>
+                                        <constraint firstItem="Drr-76-i9F" firstAttribute="top" secondItem="L9V-uJ-Nza" secondAttribute="centerY" id="8dY-RC-vXi"/>
+                                        <constraint firstItem="Lu9-59-hL0" firstAttribute="top" secondItem="L9V-uJ-Nza" secondAttribute="centerY" id="Br1-Gl-Oc6"/>
+                                        <constraint firstAttribute="trailing" secondItem="Drr-76-i9F" secondAttribute="trailing" constant="10" id="OL6-CC-6iR"/>
+                                        <constraint firstItem="9Vy-Od-G3D" firstAttribute="leading" secondItem="L9V-uJ-Nza" secondAttribute="leading" constant="10" id="SH8-iE-lmw"/>
+                                        <constraint firstItem="Lu9-59-hL0" firstAttribute="leading" secondItem="L9V-uJ-Nza" secondAttribute="leading" constant="10" id="ePj-0K-5fq"/>
+                                        <constraint firstItem="9Vy-Od-G3D" firstAttribute="bottom" secondItem="L9V-uJ-Nza" secondAttribute="centerY" id="s2x-Rd-d5q"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="averageFetchTimeLabel" destination="h03-5D-FEs" id="etp-j7-E2N"/>
-                                    <outlet property="expectedIntervalLabel" destination="Wx5-uX-qzm" id="v1Z-Fp-rmP"/>
-                                    <outlet property="numberFetchEventsLabel" destination="v6b-8Y-WEV" id="en0-fB-G67"/>
-                                    <outlet property="titleLabel" destination="Hrl-D8-6FN" id="xLj-fT-lpV"/>
+                                    <outlet property="leftDetailLabel" destination="Lu9-59-hL0" id="G8W-Eu-YKF"/>
+                                    <outlet property="rightDetailLabel" destination="Drr-76-i9F" id="pxA-wN-XYh"/>
+                                    <outlet property="titleLabel" destination="9Vy-Od-G3D" id="Fpw-6G-pei"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

@@ -212,6 +212,12 @@ extension Date {
     return dateFormatter.string(from: self)
   }
   
+  var formatted_MdYYhms: String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "M/d/YY h:mm:ss a"
+    return dateFormatter.string(from: self)
+  }
+  
   static func timesampFormat(_ fromDate: Date, toDate: Date) -> String {
     let seconds: Double = Double(Date.nanosecondsBetweenDates(fromDate, toDate: toDate)) / 1000000000
     return "\(seconds.fourDecimals)"

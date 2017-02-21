@@ -12,21 +12,12 @@ import CoreData
 
 extension Global {
   
-  var backgroundFetchInterval: Int {
+  var backgroundFetchInterval: TimeInterval {
+    get {
+      return TimeInterval(self.backgroundFetchIntervalValue)
+    }
     set {
       self.backgroundFetchIntervalValue = Int32(newValue)
-    }
-    get {
-      return Int(self.backgroundFetchIntervalValue)
-    }
-  }
-  
-  var backgroundFetchIntervalSeconds: Int {
-    set {
-      self.backgroundFetchInterval = Int(newValue / 60)
-    }
-    get {
-      return self.backgroundFetchInterval * 60
     }
   }
 }

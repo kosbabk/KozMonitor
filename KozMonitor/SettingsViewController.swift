@@ -28,8 +28,6 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   @IBOutlet weak var versionLabel: UILabel!
   @IBOutlet weak var buildLabel: UILabel!
   
-  var fetchIntervalPickerShowing: Bool = false
-  
   // MARK: - Lifecycle
   
   override func viewDidLoad() {
@@ -84,14 +82,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     }
     
     self.updateSelectedFetchIntervalPicker()
-    self.fetchIntervalPickerShowing = false
     self.reloadContent()
-  }
-  
-  override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
-    
-    self.fetchIntervalPickerShowing = false
   }
   
   // MARK: - Actions
@@ -126,7 +117,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   func reloadContent(animated: Bool = false) {
     self.notificationSwitch.setOn(Global.shared.notificationsEnabled, animated: animated)
-    self.fetchIntervalLabel.text = "\(Global.shared.backgroundFetchInterval)m"
+    self.fetchIntervalLabel.text = Global.shared.backgroundFetchInterval.timeString
     
     // Set the version label
     if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -205,32 +196,23 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     case self.dismissSection:
       return 1
     case self.settingsSection:
-      return self.fetchIntervalPickerShowing ? 3 : 2
+      return 3
     case self.infoSection:
       return 2
     default:
       return 0
     }
   }
-  
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    tableView.deselectRow(at: indexPath, animated: true)
-    
-    if indexPath.section == self.settingsSection && indexPath.row == 1 {
-      self.fetchIntervalPickerShowing = !self.fetchIntervalPickerShowing
-      self.reloadContent(animated: true)
-    }
-  }
 }
 
 extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource {
   
-  private var fetchIntervals: [Int] {
-    var items: [Int] = []
-    for item in 1...30 {
-      items.append(item)
+  private var fetchIntervals: [TimeInterval] {
+    var intervals: [TimeInterval] = []
+    for minuteValue in 1...30 {
+      intervals.append(TimeInterval(minuteValue * 60))
     }
-    return items
+    return intervals
   }
   
   func updateSelectedFetchIntervalPicker() {
@@ -249,14 +231,14 @@ extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource 
   }
   
   func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return "\(self.fetchIntervals[row])"
+    return self.fetchIntervals[row].timeString
   }
   
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     let interval = self.fetchIntervals[row]
     Global.shared.backgroundFetchInterval = interval
     MyDataManager.shared.saveMainContext()
-    UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(Global.shared.backgroundFetchIntervalSeconds))
+    UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(Global.shared.backgroundFetchInterval))
     self.reloadContent()
   }
 }

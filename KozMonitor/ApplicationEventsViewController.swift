@@ -1,5 +1,5 @@
 //
-//  CollectionListViewController.swift
+//  ApplicationEventsViewController.swift
 //  KozMonitor
 //
 //  Created by Kelvin Kosbab on 2/18/17.
@@ -11,34 +11,27 @@ import UIKit
 import CoreData
 import UserNotifications
 
-class CollectionListElementCell : UITableViewCell {
+class ApplicationEventCell : UITableViewCell {
   @IBOutlet weak private var titleLabel: UILabel!
-  @IBOutlet weak private var numberFetchEventsLabel: UILabel!
-  @IBOutlet weak private var averageFetchTimeLabel: UILabel!
-  @IBOutlet weak private var expectedIntervalLabel: UILabel!
-  private var collection: FetchSession? = nil
+  @IBOutlet weak private var leftDetailLabel: UILabel!
+  @IBOutlet weak private var rightDetailLabel: UILabel!
   
-  func configure(collection: FetchSession) {
-    self.collection = collection
+  private var applicationEvent: ApplicationEvent? = nil
+  
+  func configure(applicationEvent: ApplicationEvent) {
+    self.applicationEvent = applicationEvent
     
-    self.titleLabel.text = collection.startDate?.dateTimeFormat ?? "NA"
-    self.numberFetchEventsLabel.text = "\(collection.events.count) \(collection.events.count == 1 ? "Event" : "Events")"
-    self.expectedIntervalLabel.text = "Expected: \(collection.selectedFetchInterval)m"
-    
-    if let averageMinutes = collection.averageFetchInterval {
-      let averageString = averageMinutes < 2 ? "\((averageMinutes * 60).twoDecimals)s" : "\(averageMinutes.twoDecimals)m"
-      self.averageFetchTimeLabel.text = "Average: \(averageString)"
-    } else {
-      self.averageFetchTimeLabel.text = "Average: NA"
-    }
+    self.titleLabel.text = applicationEvent.eventType.description
+    self.leftDetailLabel.text = "Expected Interval: \(applicationEvent.fetchInterval.timeString)"
+    self.rightDetailLabel.text =  applicationEvent.date?.formatted_MdYYhms ?? "🕑?"
   }
 }
 
-class CollectionListViewController : MyTableViewController, ItemsReloadable, NSFetchedResultsControllerDelegate {
+class ApplicationEventsViewController : MyTableViewController, ItemsReloadable, NSFetchedResultsControllerDelegate {
   
   // MARK: - Class Accessors
   
-  static func newViewController() -> CollectionListViewController {
+  static func newViewController() -> ApplicationEventsViewController {
     return self.newViewController(fromStoryboard: .main)
   }
   
@@ -47,7 +40,7 @@ class CollectionListViewController : MyTableViewController, ItemsReloadable, NSF
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "Sessions"
+    self.title = "Application Events"
     
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icSettingsMenu"), target: self, action: #selector(self.openSettingsMenu))
     
@@ -69,10 +62,10 @@ class CollectionListViewController : MyTableViewController, ItemsReloadable, NSF
   
   // MARK: - NSFetchedResultsControllerDelegate
   
-  var fetchedResultsController: NSFetchedResultsController<FetchSession>? = nil
+  var fetchedResultsController: NSFetchedResultsController<ApplicationEvent>? = nil
   
   func buildFetchedResultsController() {
-    self.fetchedResultsController = FetchSession.newFetchedResultsController()
+    self.fetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .appDidBecomeActive, .backgroundFetchEventStarted, .backgroundFetchEventCompleted ])
     self.fetchedResultsController?.delegate = self
     
     do {
@@ -89,28 +82,50 @@ class CollectionListViewController : MyTableViewController, ItemsReloadable, NSF
   
   // MARK: - UITableView Helpers
   
-  var collections: [FetchSession] {
+  var applicationEvents: [ApplicationEvent] {
     return self.fetchedResultsController?.fetchedObjects ?? []
   }
   
   // MARK: - UITableView
   
   override func numberOfSections(in tableView: UITableView) -> Int {
-    return 1
+    return self.applicationEvents.count
+  }
+  
+  override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    return nil
+  }
+  
+  override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    
+    // Can only calculate the interval if there is a next event to calculate from
+    if section + 1 < self.applicationEvents.count, let currentDate = self.applicationEvents[section].date, let nextDate = self.applicationEvents[section + 1].date {
+      let timeInterval = nextDate.timeIntervalSince(currentDate)
+      return  "Interval: \(timeInterval.timeString)"
+    }
+    return nil
+  }
+  
+  override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    return 0
+  }
+  
+  override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    return 22
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.collections.count
+    return 1
   }
   
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 50
+    return 40
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: CollectionListElementCell.name, for: indexPath) as! CollectionListElementCell
-    let collection = self.collections[indexPath.row]
-    cell.configure(collection: collection)
+    let cell = tableView.dequeueReusableCell(withIdentifier: ApplicationEventCell.name, for: indexPath) as! ApplicationEventCell
+    let applicationEvent = self.applicationEvents[indexPath.section]
+    cell.configure(applicationEvent: applicationEvent)
     return cell
   }
 }

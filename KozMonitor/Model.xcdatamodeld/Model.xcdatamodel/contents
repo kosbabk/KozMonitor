@@ -20,8 +20,8 @@
         <relationship name="activeSession" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FetchSession" inverseName="global" inverseEntity="FetchSession" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Global" positionX="-36" positionY="9" width="128" height="105"/>
         <element name="FetchEvent" positionX="0" positionY="45" width="128" height="105"/>
         <element name="FetchSession" positionX="27" positionY="72" width="128" height="120"/>
+        <element name="Global" positionX="-36" positionY="9" width="128" height="105"/>
     </elements>
 </model>
