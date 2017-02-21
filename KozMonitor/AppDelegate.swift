@@ -100,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     return URLSession(configuration: backgroundConfiguration, delegate: self, delegateQueue: .main)
   }
   
-  var performFetchCompletionHandler: ((_ backgroundFetchResult: UIBackgroundFetchResult) -> Void)? = nil
+  var performFetchCompletionHandler: (() -> Void)? = nil
 
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
@@ -110,23 +110,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     if let requestPath = Global.shared.requestPath, let requestUrl = URL(string: requestPath) {
       
-      // Store the fetch completion handler
-      self.performFetchCompletionHandler = completionHandler
-      
-      // Build the data request
-      let session = self.backgroundSession ?? self.createBackgroundSessionInstance()
-      self.backgroundSession = session
-      let downloadTask = session.downloadTask(with: requestUrl)
-      downloadTask.resume()
-      
-      // Establish a timeout just in case
-      DispatchQueue.main.asyncAfter(deadline: .now() + 6.0, execute: {
-        if let _ = self.performFetchCompletionHandler {
-          self.performFetchCompletionHandler = nil
-          completionHandler(.newData)
-        }
+      self.startDownloadTask(requestUrl: requestUrl, completion: {
+        completionHandler(.newData)
       })
+      
+    } else {
+      completionHandler(.newData)
     }
+  }
+  
+  func startDownloadTask(requestUrl url: URL, completion: @escaping () -> Void) {
+    
+    // Save the completion handler
+    self.performFetchCompletionHandler = completion
+    
+    // Build the download task
+    let session = self.backgroundSession ?? self.createBackgroundSessionInstance()
+    self.backgroundSession = session
+    let downloadTask = session.downloadTask(with: url)
+    downloadTask.resume()
   }
 }
 
@@ -170,7 +172,7 @@ extension AppDelegate : URLSessionDownloadDelegate {
     MyDataManager.shared.saveMainContext()
     
     // Execute background task completion handler
-    self.performFetchCompletionHandler?(.newData)
+    self.performFetchCompletionHandler?()
     self.performFetchCompletionHandler = nil
   }
 }
