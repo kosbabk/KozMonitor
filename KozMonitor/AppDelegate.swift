@@ -17,12 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
     // Set minimum background fetch interval
-//    let minimumFetchInterval: TimeInterval = UIApplicationBackgroundFetchIntervalMinimum
-//    if Global.shared.backgroundFetchInterval < minimumFetchInterval {
-//      Global.shared.backgroundFetchInterval = minimumFetchInterval + 60
-//      MyDataManager.shared.saveMainContext()
-//    }
-    application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+    let minimumFetchInterval: TimeInterval = TimeInterval(4*60)
+    if Global.shared.backgroundFetchInterval < minimumFetchInterval {
+      Global.shared.backgroundFetchInterval = minimumFetchInterval + 60
+      MyDataManager.shared.saveMainContext()
+    }
+    application.setMinimumBackgroundFetchInterval(Global.shared.backgroundFetchInterval)
     
     // Request notifications
     UNUserNotificationCenter.current().getNotificationSettings { (settings) in
@@ -68,7 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .appDidEnterBackground, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
     
-    // Begin a background task here if there is a process that requires extra time to execute
+    // Set the fetch interval to a the minimum app value when first enter background
+    application.setMinimumBackgroundFetchInterval(4 * 60)
   }
 
   func applicationWillEnterForeground(_ application: UIApplication) {
@@ -114,10 +115,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       
       self.startDownloadTask(requestUrl: requestUrl, completion: {
         completionHandler(.newData)
+        application.setMinimumBackgroundFetchInterval(Global.shared.backgroundFetchInterval)
       })
       
     } else {
       completionHandler(.newData)
+      application.setMinimumBackgroundFetchInterval(Global.shared.backgroundFetchInterval)
     }
   }
   

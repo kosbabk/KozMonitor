@@ -196,7 +196,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     case self.dismissSection:
       return 1
     case self.settingsSection:
-      return 1
+      return 3
     case self.infoSection:
       return 2
     default:
@@ -236,9 +236,18 @@ extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource 
   
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     let interval = self.fetchIntervals[row]
-    Global.shared.backgroundFetchInterval = interval
-    MyDataManager.shared.saveMainContext()
-    UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+    
+    if interval != Global.shared.backgroundFetchInterval {
+      
+      // Update the fetch interval
+      Global.shared.backgroundFetchInterval = interval
+      MyDataManager.shared.saveMainContext()
+      UIApplication.shared.setMinimumBackgroundFetchInterval(Global.shared.backgroundFetchInterval)
+      
+      // Publish the application event
+      _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .updatedBackgroundFetchInterval, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+      MyDataManager.shared.saveMainContext()
+    }
     self.reloadContent()
   }
 }
