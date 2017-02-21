@@ -120,9 +120,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       downloadTask.resume()
       
       // Establish a timeout just in case
-      DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 6.0, execute: {
         if let _ = self.performFetchCompletionHandler {
-          self.urlSessionDidFinishEvents(forBackgroundURLSession: session)
+          self.performFetchCompletionHandler = nil
+          completionHandler(.newData)
         }
       })
     }
@@ -133,17 +134,25 @@ extension AppDelegate : URLSessionDownloadDelegate {
   
   func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
     print("\(self.className) : didBecomeInvalidWithError \(error)")
-    self.urlSessionDidFinishEvents(forBackgroundURLSession: session)
+    self.backgroundFetchCompleted()
   }
   
   func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
     if let error = error {
       print("\(self.className) : didCompleteWithError \(error)")
     }
-    self.urlSessionDidFinishEvents(forBackgroundURLSession: session)
+    self.backgroundFetchCompleted()
   }
   
   func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
+    print("\(self.className) : urlSessionDidFinishEvents")
+  }
+  
+  func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+    print("\(self.className) : Did finish downloading")
+  }
+  
+  private func backgroundFetchCompleted() {
     
     // Publish a local notification if enabled
     if Global.shared.notificationsEnabled {
@@ -163,9 +172,5 @@ extension AppDelegate : URLSessionDownloadDelegate {
     // Execute background task completion handler
     self.performFetchCompletionHandler?(.newData)
     self.performFetchCompletionHandler = nil
-  }
-  
-  func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-    print("\(self.className) : Did finish downloading")
   }
 }
