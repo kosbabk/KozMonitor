@@ -17,7 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
     // Set minimum background fetch interval
-    application.setMinimumBackgroundFetchInterval(TimeInterval(Global.shared.backgroundFetchInterval))
+//    let minimumFetchInterval: TimeInterval = UIApplicationBackgroundFetchIntervalMinimum
+//    if Global.shared.backgroundFetchInterval < minimumFetchInterval {
+//      Global.shared.backgroundFetchInterval = minimumFetchInterval + 60
+//      MyDataManager.shared.saveMainContext()
+//    }
+    application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
     
     // Request notifications
     UNUserNotificationCenter.current().getNotificationSettings { (settings) in
@@ -58,9 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationDidEnterBackground(_ application: UIApplication) {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    
-    // Update minimum background fetch interval
-    application.setMinimumBackgroundFetchInterval(TimeInterval(Global.shared.backgroundFetchInterval))
     
     // Publish the application event
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .appDidEnterBackground, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
