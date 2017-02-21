@@ -93,7 +93,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   private let backgroundSessionConfigurationIdentifier: String = "Kozinga.KozMonitor.BackgroundSessionConfiguration"
   var backgroundSession: URLSession? = nil
-  var backgroundDataTask: URLSessionDataTask? = nil
+  
+  private func createBackgroundSessionInstance() -> URLSession {
+    let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionConfigurationIdentifier)
+    backgroundConfiguration.isDiscretionary = true
+    return URLSession(configuration: backgroundConfiguration, delegate: self, delegateQueue: .main)
+  }
+  
   var performFetchCompletionHandler: ((_ backgroundFetchResult: UIBackgroundFetchResult) -> Void)? = nil
 
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -108,19 +114,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       self.performFetchCompletionHandler = completionHandler
       
       // Build the data request
-      let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: self.backgroundSessionConfigurationIdentifier)
-      let session = URLSession(configuration: backgroundConfiguration, delegate: self, delegateQueue: nil)
+      let session = self.backgroundSession ?? self.createBackgroundSessionInstance()
       self.backgroundSession = session
-      let dataTask = session.dataTask(with: requestUrl)
-      self.backgroundDataTask = dataTask
-      dataTask.resume()
+      let downloadTask = session.downloadTask(with: requestUrl)
+      downloadTask.resume()
+      
+      // Establish a timeout just in case
+      DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
+        if let _ = self.performFetchCompletionHandler {
+          self.urlSessionDidFinishEvents(forBackgroundURLSession: session)
+        }
+      })
     }
   }
 }
 
-extension AppDelegate : URLSessionDataDelegate {
+extension AppDelegate : URLSessionDownloadDelegate {
   
-  func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+  func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
+    print("\(self.className) : didBecomeInvalidWithError \(error)")
+    self.urlSessionDidFinishEvents(forBackgroundURLSession: session)
+  }
+  
+  func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+    if let error = error {
+      print("\(self.className) : didCompleteWithError \(error)")
+    }
+    self.urlSessionDidFinishEvents(forBackgroundURLSession: session)
+  }
+  
+  func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
     
     // Publish a local notification if enabled
     if Global.shared.notificationsEnabled {
@@ -139,5 +162,10 @@ extension AppDelegate : URLSessionDataDelegate {
     
     // Execute background task completion handler
     self.performFetchCompletionHandler?(.newData)
+    self.performFetchCompletionHandler = nil
+  }
+  
+  func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+    print("\(self.className) : Did finish downloading")
   }
 }

@@ -65,7 +65,7 @@ class ApplicationEventsViewController : MyTableViewController, ItemsReloadable, 
   var fetchedResultsController: NSFetchedResultsController<ApplicationEvent>? = nil
   
   func buildFetchedResultsController() {
-    self.fetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .appDidBecomeActive, .backgroundFetchEventStarted, .backgroundFetchEventCompleted ])
+    self.fetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .backgroundFetchEventStarted, .backgroundFetchEventCompleted ])
     self.fetchedResultsController?.delegate = self
     
     do {
