@@ -196,7 +196,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     case self.dismissSection:
       return 1
     case self.settingsSection:
-      return 3
+      return 1
     case self.infoSection:
       return 2
     default:
@@ -209,7 +209,7 @@ extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource 
   
   private var fetchIntervals: [TimeInterval] {
     var intervals: [TimeInterval] = []
-    for minuteValue in 4...30 {
+    for minuteValue in 0...30 {
       intervals.append(TimeInterval(minuteValue * 60))
     }
     return intervals
@@ -242,7 +242,6 @@ extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource 
       // Update the fetch interval
       Global.shared.backgroundFetchInterval = interval
       MyDataManager.shared.saveMainContext()
-      UIApplication.shared.setMinimumBackgroundFetchInterval(Global.shared.backgroundFetchInterval)
       
       // Publish the application event
       _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .updatedBackgroundFetchInterval, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)

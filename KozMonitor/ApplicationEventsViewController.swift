@@ -22,8 +22,8 @@ class ApplicationEventCell : UITableViewCell {
     self.applicationEvent = applicationEvent
     
     self.titleLabel.text = applicationEvent.eventType.description
-    self.leftDetailLabel.text = "Expected Interval: \(applicationEvent.fetchInterval.timeString)"
-    self.rightDetailLabel.text =  applicationEvent.date?.formatted_MdYYhms ?? "🕑?"
+    self.leftDetailLabel.text = applicationEvent.date?.formatted_MdYYhms ?? "🕑?"
+    self.rightDetailLabel.text = ""
   }
 }
 
@@ -65,7 +65,7 @@ class ApplicationEventsViewController : MyTableViewController, ItemsReloadable, 
   var fetchedResultsController: NSFetchedResultsController<ApplicationEvent>? = nil
   
   func buildFetchedResultsController() {
-    self.fetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .backgroundFetchEventStarted, .backgroundFetchEventCompleted, .updatedBackgroundFetchInterval ])
+    self.fetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .backgroundFetchEventStarted, .backgroundFetchEventCompleted ])
     self.fetchedResultsController?.delegate = self
     
     do {
