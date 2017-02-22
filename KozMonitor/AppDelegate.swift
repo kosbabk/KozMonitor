@@ -16,18 +16,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
-    // Wunderground
-    // Key ID: 0137f0460db72c7d
+    // Wunderground Key ID: 0137f0460db72c7d
     // Project Name: KozMonitor
     // Company Website: kozinga.net
-    // See https://www.wunderground.com/weather/api/d/docs?MR=1 for more details
+    // For more details visit https://www.wunderground.com/weather/api/d/docs?MR=1
     Global.shared.requestPath = "https://api.wunderground.com/api/0137f0460db72c7d/conditions/q/CA/San_Francisco.json"
     MyDataManager.shared.saveMainContext()
     
     // Set minimum background fetch interval
     let minimumFetchInterval: TimeInterval = TimeInterval(4*60)
     if Global.shared.backgroundFetchInterval < minimumFetchInterval {
-      Global.shared.backgroundFetchInterval = minimumFetchInterval + 60
+      Global.shared.backgroundFetchInterval = 600
       MyDataManager.shared.saveMainContext()
     }
     application.setMinimumBackgroundFetchInterval(Global.shared.backgroundFetchInterval)
