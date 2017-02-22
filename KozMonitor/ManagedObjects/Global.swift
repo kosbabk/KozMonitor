@@ -20,4 +20,11 @@ extension Global {
       self.backgroundFetchIntervalValue = Int32(newValue)
     }
   }
+  
+  var requestUrl: URL? {
+    if let requestPath = self.requestPath {
+      return URL(string: requestPath)
+    }
+    return nil
+  }
 }

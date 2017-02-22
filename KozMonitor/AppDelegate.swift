@@ -16,6 +16,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     
+    // Wunderground
+    // Key ID: 0137f0460db72c7d
+    // Project Name: KozMonitor
+    // Company Website: kozinga.net
+    // See https://www.wunderground.com/weather/api/d/docs?MR=1 for more details
+    Global.shared.requestPath = "https://api.wunderground.com/api/0137f0460db72c7d/conditions/q/CA/San_Francisco.json"
+    MyDataManager.shared.saveMainContext()
+    
     // Set minimum background fetch interval
     let minimumFetchInterval: TimeInterval = TimeInterval(4*60)
     if Global.shared.backgroundFetchInterval < minimumFetchInterval {
@@ -67,9 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Publish the application event
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .appDidEnterBackground, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
-    
-    // Set the fetch interval to a the minimum app value when first enter background
-    application.setMinimumBackgroundFetchInterval(4 * 60)
   }
 
   func applicationWillEnterForeground(_ application: UIApplication) {
@@ -111,16 +116,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchEventStarted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
     
-    if let requestPath = Global.shared.requestPath, let requestUrl = URL(string: requestPath) {
+    if let url = Global.shared.requestUrl {
       
-      self.startDownloadTask(requestUrl: requestUrl, completion: {
+      self.startDownloadTask(requestUrl: url) {
         completionHandler(.newData)
-        application.setMinimumBackgroundFetchInterval(Global.shared.backgroundFetchInterval)
-      })
+      }
       
     } else {
       completionHandler(.newData)
-      application.setMinimumBackgroundFetchInterval(Global.shared.backgroundFetchInterval)
     }
   }
   
