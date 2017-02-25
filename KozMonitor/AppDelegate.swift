@@ -71,6 +71,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
+    // Set the background fetch interval
+    application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+    
     // Publish the application event
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .appDidEnterBackground, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
@@ -103,36 +106,61 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
     // Publish the application event
-    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchEventStarted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchTriggered, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
     
+    // Publish a local notification if enabled
+    if Global.shared.notificationsEnabled {
+      let content = UNMutableNotificationContent()
+      content.title = ApplicationEventType.backgroundFetchTriggered.description
+      content.body = "🔵🔵🔵🔵🔵🔵"
+      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+      let request = UNNotificationRequest(identifier: "KozMonitor.BackgroundFetchEventTriggered.\(Date().serverDateString)", content: content, trigger: trigger)
+      UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
     
-    if let url = Global.shared.requestUrl {
-      self.startDownloadTask(requestUrl: url) {
+    if Global.shared.backgroundFetchGetEnabled {
+      self.startDownloadTask {
         completionHandler(.newData)
       }
+    } else {
+      completionHandler(.newData)
     }
   }
   
-  func startDownloadTask(requestUrl url: URL, completion: @escaping () -> Void) {
+  func startDownloadTask(completion: @escaping () -> Void) {
+    
+    guard let url = Global.shared.requestUrl else {
+      completion()
+      return
+    }
+    
+    // Publish the application event
+    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchGetStarted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+    MyDataManager.shared.saveMainContext()
+    
+    // Publish a local notification if enabled
+    if Global.shared.notificationsEnabled {
+      let content = UNMutableNotificationContent()
+      content.title = ApplicationEventType.backgroundFetchGetStarted.description
+      content.body = "🔴🔴🔴🔴🔴🔴"
+      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
+      let request = UNNotificationRequest(identifier: "KozMonitor.BackgroundFetchEventStart.\(Date().serverDateString)", content: content, trigger: trigger)
+      UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
     
     // Save the completion handler
     self.performFetchCompletionHandler = completion
     
     // Build the download task
     let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "Kozinga.KozMonitor.BackgroundSessionConfiguration")
-    let session = URLSession(configuration: backgroundConfiguration, delegate: self, delegateQueue: nil)
+    let session = URLSession(configuration: backgroundConfiguration, delegate: self, delegateQueue: .current)
     let downloadTask = session.downloadTask(with: url)
     downloadTask.resume()
   }
 }
 
 extension AppDelegate : URLSessionDownloadDelegate {
-  
-  func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-    print("\(self.className) : didBecomeInvalidWithError \(error)")
-    self.backgroundFetchCompleted()
-  }
   
   func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
     if let error = error {
@@ -152,29 +180,21 @@ extension AppDelegate : URLSessionDownloadDelegate {
   private func backgroundFetchCompleted() {
     
     // Publish the application event
-    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchEventCompleted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchGetCompleted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
     
     // Publish a local notification if enabled
     if Global.shared.notificationsEnabled {
       let content = UNMutableNotificationContent()
-      content.title = ApplicationEventType.backgroundFetchEventCompleted.description
-      if let fetchEventStarted = ApplicationEvent.fetchMany(eventType: .backgroundFetchEventStarted).last, let startedDate = fetchEventStarted.date, let fetchEventCompleted = ApplicationEvent.fetchMany(eventType: .backgroundFetchEventCompleted).last, let completedDate = fetchEventCompleted.date {
-        content.body = "Background process duration: \(completedDate.timeIntervalSince(startedDate).timeString)"
-      } else {
-        content.body = "Currently set to the minimum fetch interval"
-      }
-      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
-      let request = UNNotificationRequest(identifier: "KozMonitor.BackgroundFetchEvent", content: content, trigger: trigger)
+      content.title = ApplicationEventType.backgroundFetchGetCompleted.description
+      content.body = "⚫️⚫️⚫️⚫️⚫️⚫️"
+      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+      let request = UNNotificationRequest(identifier: "KozMonitor.BackgroundFetchEventEnd.\(Date().serverDateString)", content: content, trigger: trigger)
       UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     
     // Execute background task completion handler
-    if let completion = self.performFetchCompletionHandler {
-      DispatchQueue.main.async {
-        completion()
-      }
-      self.performFetchCompletionHandler = nil
-    }
+    self.performFetchCompletionHandler?()
+    self.performFetchCompletionHandler = nil
   }
 }

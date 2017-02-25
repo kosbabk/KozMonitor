@@ -22,9 +22,11 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   // MARK: - Properties
   
   @IBOutlet weak var dismissButton: UIButton!
+  
   @IBOutlet weak var notificationSwitch: UISwitch!
-  @IBOutlet weak var fetchIntervalLabel: UILabel!
-  @IBOutlet weak var fetchIntervalPickerView: UIPickerView!
+  
+  @IBOutlet weak var getEnabledSwitch: UISwitch!
+  
   @IBOutlet weak var versionLabel: UILabel!
   @IBOutlet weak var buildLabel: UILabel!
   
@@ -32,9 +34,6 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    self.fetchIntervalPickerView.delegate = self
-    self.fetchIntervalPickerView.dataSource = self
     
     // Request notifications
     UNUserNotificationCenter.current().getNotificationSettings { (settings) in
@@ -80,8 +79,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
         self.reloadContent()
       }
     }
-    
-    self.updateSelectedFetchIntervalPicker()
+
     self.reloadContent()
   }
   
@@ -117,7 +115,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   func reloadContent(animated: Bool = false) {
     self.notificationSwitch.setOn(Global.shared.notificationsEnabled, animated: animated)
-    self.fetchIntervalLabel.text = Global.shared.backgroundFetchInterval.timeString
+    self.getEnabledSwitch.setOn(Global.shared.backgroundFetchGetEnabled, animated: animated)
     
     // Set the version label
     if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -132,9 +130,6 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     } else {
       self.buildLabel.text = "🤷🏼‍♂️"
     }
-    
-    // Update the visible rows of the table
-    self.tableView.reloadData()
   }
   
   // MARK: - Notifications Switch
@@ -161,6 +156,11 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     }
   }
   
+  @IBAction func getEnabledSwitchValueChanged(_ sender: UISwitch) {
+    Global.shared.backgroundFetchGetEnabled = sender.isOn
+    MyDataManager.shared.saveMainContext()
+  }
+  
   func showNotificationsDisabledAlert() {
     let settingsAlertController = UIAlertController(title: "Notifications", message: "Notifications have not been authorized. Please go to settings and authorize this app for notifications", preferredStyle: .alert)
     settingsAlertController.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (_) in
@@ -177,15 +177,12 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   // MARK: - UITableView
   
   let dismissSection: Int = 0
-  let settingsSection: Int = 1
-  let infoSection: Int = 2
-  
-  override func numberOfSections(in tableView: UITableView) -> Int {
-    return 3
-  }
+  let notificationsSection: Int = 1
+  let networkGetSection: Int = 2
+  let infoSection: Int = 3
   
   override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-    if section == self.settingsSection, let path = Global.shared.requestPath {
+    if section == self.networkGetSection, let path = Global.shared.requestPath {
       return "Request Path: \(path)"
     }
     return nil
@@ -195,58 +192,14 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     switch section {
     case self.dismissSection:
       return 1
-    case self.settingsSection:
+    case self.notificationsSection:
+      return 1
+    case self.networkGetSection:
       return 1
     case self.infoSection:
       return 2
     default:
       return 0
     }
-  }
-}
-
-extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource {
-  
-  private var fetchIntervals: [TimeInterval] {
-    var intervals: [TimeInterval] = []
-    for minuteValue in 0...30 {
-      intervals.append(TimeInterval(minuteValue * 60))
-    }
-    return intervals
-  }
-  
-  func updateSelectedFetchIntervalPicker() {
-    if let index = self.fetchIntervals.index(of: Global.shared.backgroundFetchInterval) {
-      self.fetchIntervalPickerView.selectRow(index, inComponent: 0, animated: true)
-      self.fetchIntervalPickerView.reloadComponent(0)
-    }
-  }
-  
-  func numberOfComponents(in pickerView: UIPickerView) -> Int {
-    return 1
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-    return self.fetchIntervals.count
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-    return self.fetchIntervals[row].timeString
-  }
-  
-  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-    let interval = self.fetchIntervals[row]
-    
-    if interval != Global.shared.backgroundFetchInterval {
-      
-      // Update the fetch interval
-      Global.shared.backgroundFetchInterval = interval
-      MyDataManager.shared.saveMainContext()
-      
-      // Publish the application event
-      _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .updatedBackgroundFetchInterval, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
-      MyDataManager.shared.saveMainContext()
-    }
-    self.reloadContent()
   }
 }

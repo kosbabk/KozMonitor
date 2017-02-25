@@ -229,9 +229,9 @@ extension Date {
     return dateFormatter.date(from: dateString)
   }
   
-  static func dateToServerDateString(_ date: Date) -> String {
+  var serverDateString: String {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-    return dateFormatter.string(from: date)
+    return dateFormatter.string(from: self)
   }
 }
