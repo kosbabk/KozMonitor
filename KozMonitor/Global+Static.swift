@@ -7,13 +7,14 @@
 //
 
 import Foundation
+import CoreData
 
 extension Global : MyManagedObjectProtocol {
   
   // MARK: - MyManagedObjectProtocol
   
   static var sortDescriptors: [NSSortDescriptor]? {
-    return nil
+    return []
   }
   
   // MARK: - Singleton

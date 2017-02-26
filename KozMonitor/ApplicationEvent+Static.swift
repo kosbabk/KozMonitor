@@ -52,6 +52,15 @@ extension ApplicationEvent : MyManagedObjectProtocol {
     return self.fetchMany(predicate: predicate)
   }
   
+  static func fetchMany(eventTypes: [ApplicationEventType]) -> [ApplicationEvent] {
+    var rawEventTypes: [Int16] = []
+    for eventType in eventTypes {
+      rawEventTypes.append(Int16(eventType.rawValue))
+    }
+    let predicate = NSPredicate(format: "eventTypeValue IN %@", rawEventTypes)
+    return self.fetchMany(predicate: predicate)
+  }
+  
   // MARK: - Create / Update
   
   static func createOrUpdate(date: Date, eventType: ApplicationEventType, fetchInterval: TimeInterval, requestPath: String?) -> ApplicationEvent {

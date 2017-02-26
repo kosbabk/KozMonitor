@@ -83,6 +83,8 @@ class MyLocationManager : NSObject, PermissionProtocol {
       presentingViewController.present(alertController, animated: true, completion: completion)
     }
   }
+  
+  // MARK: - Location Updates
 }
 
 extension MyLocationManager : CLLocationManagerDelegate {

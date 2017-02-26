@@ -81,6 +81,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchTriggered, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
     
+    // Update the last request date in global
+    Global.shared.lastBackgroundFetchDate = Date() as NSDate
+    MyDataManager.shared.saveMainContext()
+    
     // Publish a local notification if enabled
     MyNotificationManger.shared.publishNotification(title: ApplicationEventType.backgroundFetchTriggered.description, body: "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵")
     

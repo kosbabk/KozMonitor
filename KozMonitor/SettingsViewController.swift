@@ -21,6 +21,8 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   // MARK: - Properties
   
   @IBOutlet weak var dismissButton: UIButton!
+  @IBOutlet weak var expectedFetchIntervalLabel: UILabel!
+  @IBOutlet weak var expectedFetchIntervalPickerView: UIPickerView!
   
   @IBOutlet weak var notificationSwitch: UISwitch!
   
@@ -34,8 +36,13 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    self.expectedFetchIntervalPickerView.delegate = self
+    self.expectedFetchIntervalPickerView.dataSource = self
+    
     // Notification permissions
     MyNotificationManger.shared.promptAlertIfDenied(self, completion: nil)
+    
+    self.buildFetchController()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -43,7 +50,6 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     
     self.reloadContent()
     MyNotificationManger.shared.refreshPermission {
-      self.reloadContent()
     }
   }
   
@@ -78,6 +84,10 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   // MARK: - Content
   
   func reloadContent(animated: Bool = false) {
+    
+    self.expectedFetchIntervalLabel.text = Global.shared.backgroundFetchInterval.timeString
+    self.reloadIntervalPicker(animated: animated)
+    
     self.notificationSwitch.setOn(Global.shared.notificationsEnabled, animated: animated)
     self.getEnabledSwitch.setOn(Global.shared.backgroundFetchGetEnabled, animated: animated)
     
@@ -121,7 +131,7 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   // MARK: - UITableView
   
-  let dismissSection: Int = 0
+  let dismissAndFetchIntervalSection: Int = 0
   let notificationsSection: Int = 1
   let networkGetSection: Int = 2
   let infoSection: Int = 3
@@ -132,19 +142,41 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     }
     return nil
   }
+}
+
+extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource {
   
-  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    switch section {
-    case self.dismissSection:
-      return 1
-    case self.notificationsSection:
-      return 1
-    case self.networkGetSection:
-      return 1
-    case self.infoSection:
-      return 2
-    default:
-      return 0
+  func reloadIntervalPicker(animated: Bool = false) {
+    if let index = self.timeIntervals.index(of: Global.shared.backgroundFetchInterval) {
+      self.expectedFetchIntervalPickerView.selectRow(index, inComponent: 0, animated: animated)
+      self.expectedFetchIntervalPickerView.reloadComponent(0)
     }
+  }
+  
+  private var timeIntervals: [TimeInterval] {
+    var intervals: [TimeInterval] = []
+    for minute in 0...30 {
+      intervals.append(TimeInterval(minute * 60))
+    }
+    return intervals
+  }
+  
+  func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    return 1
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    return self.timeIntervals.count
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    let timeInterval = self.timeIntervals[row]
+    return timeInterval.timeString
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    let timeInterval = self.timeIntervals[row]
+    Global.shared.backgroundFetchInterval = timeInterval
+    MyDataManager.shared.saveMainContext()
   }
 }

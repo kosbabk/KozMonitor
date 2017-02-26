@@ -50,6 +50,7 @@
 		B6DA317F1E6269A90053E47E /* MyLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA317E1E6269A90053E47E /* MyLocationManager.swift */; };
 		B6DA31811E626D2E0053E47E /* MyServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA31801E626D2E0053E47E /* MyServiceManager.swift */; };
 		B6DA31831E6278850053E47E /* PermissionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA31821E6278850053E47E /* PermissionProtocol.swift */; };
+		B6E778CF1E6371C000FA5D80 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E778CE1E6371C000FA5D80 /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,7 @@
 		B6DA317E1E6269A90053E47E /* MyLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLocationManager.swift; sourceTree = "<group>"; };
 		B6DA31801E626D2E0053E47E /* MyServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyServiceManager.swift; sourceTree = "<group>"; };
 		B6DA31821E6278850053E47E /* PermissionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionProtocol.swift; sourceTree = "<group>"; };
+		B6E778CE1E6371C000FA5D80 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 		B68243261E58E21F0011350B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B6E778CE1E6371C000FA5D80 /* HomeViewController.swift */,
 				B68243401E5927640011350B /* ApplicationEventsViewController.swift */,
 				B682435B1E5A02C00011350B /* SettingsViewController.swift */,
 			);
@@ -417,6 +420,7 @@
 				B69707471E5B94650034A3FB /* DragDownDismissInteractor.swift in Sources */,
 				B68243581E592BFE0011350B /* LeftMenuPresentationManager.swift in Sources */,
 				B69B9CE21E5BB68A0060AFFB /* ApplicationEvent.swift in Sources */,
+				B6E778CF1E6371C000FA5D80 /* HomeViewController.swift in Sources */,
 				B6DA31831E6278850053E47E /* PermissionProtocol.swift in Sources */,
 				B682434D1E5929D90011350B /* MyViewController.swift in Sources */,
 				B68243621E5AB2E20011350B /* Date+Util.swift in Sources */,
