@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import CoreData
-import UserNotifications
 
 class SettingsViewController : MyTableViewController, NSFetchedResultsControllerDelegate {
   
@@ -35,52 +34,17 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // Request notifications
-    UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-      
-      if settings.authorizationStatus != .authorized {
-        
-        // Update the notification settings flag
-        Global.shared.notificationsEnabled = false
-        MyDataManager.shared.saveMainContext()
-        self.reloadContent()
-        
-        // If the notification settings have not been determined yet display authorization prompt
-        if settings.authorizationStatus.isNotDetermined {
-          
-          UNUserNotificationCenter.current().requestAuthorization(options: [ .alert, .badge, .sound, .carPlay ]) { (authorized, error) in
-            if authorized {
-              print("\(self.className) : User authorized notifications")
-              Global.shared.notificationsEnabled = true
-              MyDataManager.shared.saveMainContext()
-              self.reloadContent()
-              
-            } else {
-              print("\(self.className) : User did not authorize notifications")
-              Global.shared.notificationsEnabled = false
-              MyDataManager.shared.saveMainContext()
-              self.reloadContent()
-            }
-          }
-        }
-      }
-    }
+    // Notification permissions
+    MyNotificationManger.shared.promptAlertIfDenied(self, completion: nil)
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    // Check for updates to notification settings
-    UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-      
-      if !settings.authorizationStatus.isAuthorized {
-        Global.shared.notificationsEnabled = false
-        MyDataManager.shared.saveMainContext()
-        self.reloadContent()
-      }
-    }
-
     self.reloadContent()
+    MyNotificationManger.shared.refreshPermission {
+      self.reloadContent()
+    }
   }
   
   // MARK: - Actions
@@ -135,43 +99,24 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   // MARK: - Notifications Switch
   
   @IBAction func notificationSwitchValueChanged(_ sender: UISwitch) {
-    UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+    MyNotificationManger.shared.checkPermission(authorized: {
+      // Update the setting
+      Global.shared.notificationsEnabled = sender.isOn
+      MyDataManager.shared.saveMainContext()
       
-      if settings.authorizationStatus.isAuthorized {
-        
-        // Update the setting
-        Global.shared.notificationsEnabled = sender.isOn
-        MyDataManager.shared.saveMainContext()
-        
-      } else {
-        
-        // Notifications are not enabled
-        Global.shared.notificationsEnabled = false
-        MyDataManager.shared.saveMainContext()
-        self.reloadContent(animated: true)
-        
-        // Alert to tell user to adjust their settings
-        self.showNotificationsDisabledAlert()
-      }
+    }, notDetermined: {
+      MyNotificationManger.shared.promptAlertIfDenied(self, completion: nil)
+      
+    }) {
+      // Denied
+      MyNotificationManger.shared.promptAlertIfDenied(self, completion: nil)
     }
+    
   }
   
   @IBAction func getEnabledSwitchValueChanged(_ sender: UISwitch) {
     Global.shared.backgroundFetchGetEnabled = sender.isOn
     MyDataManager.shared.saveMainContext()
-  }
-  
-  func showNotificationsDisabledAlert() {
-    let settingsAlertController = UIAlertController(title: "Notifications", message: "Notifications have not been authorized. Please go to settings and authorize this app for notifications", preferredStyle: .alert)
-    settingsAlertController.addAction(UIAlertAction(title: "Go to Settings", style: .default, handler: { (_) in
-      
-      if let settingsUrl = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(settingsUrl) {
-        UIApplication.shared.open(settingsUrl, completionHandler: nil)
-      }
-      
-    }))
-    settingsAlertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-    self.present(settingsAlertController, animated: true, completion: nil)
   }
   
   // MARK: - UITableView

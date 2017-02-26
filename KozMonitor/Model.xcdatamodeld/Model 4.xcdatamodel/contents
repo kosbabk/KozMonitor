@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="11759" systemVersion="16D32" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ApplicationEvent" representedClassName="ApplicationEvent" syncable="YES" codeGenerationType="class">
+        <attribute name="dateNSDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="eventTypeValue" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="fetchIntervalValue" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="requestPath" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Global" representedClassName="Global" syncable="YES" codeGenerationType="class">
+        <attribute name="backgroundFetchGetEnabled" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="backgroundFetchIntervalValue" optional="YES" attributeType="Integer 32" defaultValueString="300" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="lastRequestDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="listenForLocationUpdates" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="notificationsEnabled" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="requestPath" optional="YES" attributeType="String" defaultValueString="https://drive.google.com/open?id=0B9d8mSgLHrTVbGR2MW5vdUJsUUE" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="ApplicationEvent" positionX="9" positionY="99" width="128" height="105"/>
+        <element name="Global" positionX="-36" positionY="9" width="128" height="135"/>
+    </elements>
+</model>

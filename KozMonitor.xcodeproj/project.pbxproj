@@ -46,6 +46,10 @@
 		B69B9CE21E5BB68A0060AFFB /* ApplicationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B9CE11E5BB68A0060AFFB /* ApplicationEvent.swift */; };
 		B69B9CE41E5BC5680060AFFB /* TimeInterval+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B9CE31E5BC5680060AFFB /* TimeInterval+Util.swift */; };
 		B69B9CE61E5BCC7B0060AFFB /* UIKit+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B9CE51E5BCC7B0060AFFB /* UIKit+Util.swift */; };
+		B6DA317D1E6263B60053E47E /* MyNotificationManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA317C1E6263B60053E47E /* MyNotificationManger.swift */; };
+		B6DA317F1E6269A90053E47E /* MyLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA317E1E6269A90053E47E /* MyLocationManager.swift */; };
+		B6DA31811E626D2E0053E47E /* MyServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA31801E626D2E0053E47E /* MyServiceManager.swift */; };
+		B6DA31831E6278850053E47E /* PermissionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA31821E6278850053E47E /* PermissionProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +96,11 @@
 		B69B9CE31E5BC5680060AFFB /* TimeInterval+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Util.swift"; sourceTree = "<group>"; };
 		B69B9CE51E5BCC7B0060AFFB /* UIKit+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+Util.swift"; sourceTree = "<group>"; };
 		B6B38ECB1E61725F003A7678 /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
+		B6DA317A1E6256120053E47E /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
+		B6DA317C1E6263B60053E47E /* MyNotificationManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNotificationManger.swift; sourceTree = "<group>"; };
+		B6DA317E1E6269A90053E47E /* MyLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLocationManager.swift; sourceTree = "<group>"; };
+		B6DA31801E626D2E0053E47E /* MyServiceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyServiceManager.swift; sourceTree = "<group>"; };
+		B6DA31821E6278850053E47E /* PermissionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +145,7 @@
 		B68243241E58E2130011350B /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				B6DA317B1E6263940053E47E /* Managers */,
 				B68243561E592BE00011350B /* Custom Transitions */,
 				B68243281E58F1EC0011350B /* Protocols */,
 				B682432B1E5913870011350B /* Model */,
@@ -181,6 +191,7 @@
 				B68243421E59279F0011350B /* MyViewControllerIdentifierProtocol.swift */,
 				B682438C1E5AC4380011350B /* ItemsReloadable.swift */,
 				B68243851E5AC25F0011350B /* EmptyStateDelegate.swift */,
+				B6DA31821E6278850053E47E /* PermissionProtocol.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -262,6 +273,16 @@
 				B697074C1E5B94850034A3FB /* DragRightDismissInteractor.swift */,
 			);
 			name = "Drag Dismissible";
+			sourceTree = "<group>";
+		};
+		B6DA317B1E6263940053E47E /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				B6DA31801E626D2E0053E47E /* MyServiceManager.swift */,
+				B6DA317C1E6263B60053E47E /* MyNotificationManger.swift */,
+				B6DA317E1E6269A90053E47E /* MyLocationManager.swift */,
+			);
+			name = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -361,6 +382,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6DA317F1E6269A90053E47E /* MyLocationManager.swift in Sources */,
 				B682434A1E5928010011350B /* UIView+Util.swift in Sources */,
 				B68243411E5927640011350B /* ApplicationEventsViewController.swift in Sources */,
 				B682435C1E5A02C00011350B /* SettingsViewController.swift in Sources */,
@@ -389,10 +411,13 @@
 				B68243801E5ABC700011350B /* Global+Static.swift in Sources */,
 				B682433F1E5918B60011350B /* Global.swift in Sources */,
 				B69B9CE61E5BCC7B0060AFFB /* UIKit+Util.swift in Sources */,
+				B6DA31811E626D2E0053E47E /* MyServiceManager.swift in Sources */,
 				B69B9CE01E5BB3E90060AFFB /* ApplicationEvent+Static.swift in Sources */,
+				B6DA317D1E6263B60053E47E /* MyNotificationManger.swift in Sources */,
 				B69707471E5B94650034A3FB /* DragDownDismissInteractor.swift in Sources */,
 				B68243581E592BFE0011350B /* LeftMenuPresentationManager.swift in Sources */,
 				B69B9CE21E5BB68A0060AFFB /* ApplicationEvent.swift in Sources */,
+				B6DA31831E6278850053E47E /* PermissionProtocol.swift in Sources */,
 				B682434D1E5929D90011350B /* MyViewController.swift in Sources */,
 				B68243621E5AB2E20011350B /* Date+Util.swift in Sources */,
 				B682432D1E5913980011350B /* MyDataManager.swift in Sources */,
@@ -567,11 +592,12 @@
 		B68243641E5AB9300011350B /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B6DA317A1E6256120053E47E /* Model 4.xcdatamodel */,
 				B6B38ECB1E61725F003A7678 /* Model 3.xcdatamodel */,
 				B69B9CDE1E5BB3700060AFFB /* Model 2.xcdatamodel */,
 				B68243651E5AB9300011350B /* Model.xcdatamodel */,
 			);
-			currentVersion = B6B38ECB1E61725F003A7678 /* Model 3.xcdatamodel */;
+			currentVersion = B6DA317A1E6256120053E47E /* Model 4.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

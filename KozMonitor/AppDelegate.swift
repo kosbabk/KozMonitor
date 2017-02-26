@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,38 +23,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     MyDataManager.shared.saveMainContext()
     
     // Set minimum background fetch interval
-    let minimumFetchInterval: TimeInterval = TimeInterval(4*60)
-    if Global.shared.backgroundFetchInterval < minimumFetchInterval {
-      Global.shared.backgroundFetchInterval = 600
+    if Global.shared.backgroundFetchInterval < UIApplicationBackgroundFetchIntervalMinimum {
+      Global.shared.backgroundFetchInterval = UIApplicationBackgroundFetchIntervalMinimum
       MyDataManager.shared.saveMainContext()
     }
-    application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
+    UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
     
-    // Request notifications
-    UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-      
-      if !settings.authorizationStatus.isAuthorized {
-        
-        // Disable notifications within the app
-        Global.shared.notificationsEnabled = false
-        MyDataManager.shared.saveMainContext()
-        
-        // If the notification settings have not been determined yet display authorization prompt
-        if settings.authorizationStatus.isNotDetermined {
-          
-          UNUserNotificationCenter.current().requestAuthorization(options: [ .alert, .badge, .sound, .carPlay ]) { (authorized, error) in
-            if authorized {
-              print("\(self.className) : User authorized notifications")
-              Global.shared.notificationsEnabled = true
-              MyDataManager.shared.saveMainContext()
-              
-            } else {
-              print("\(self.className) : User did not authorize notifications")
-              Global.shared.notificationsEnabled = false
-              MyDataManager.shared.saveMainContext()
-            }
-          }
-        }
+    // Request necessary permissions
+    MyNotificationManger.shared.refreshPermission {
+      MyLocationManager.shared.refreshPermission {
+        print("\(self.className) : Completed refreshing permission status")
       }
     }
     
@@ -70,9 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func applicationDidEnterBackground(_ application: UIApplication) {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    
-    // Set the background fetch interval
-    application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
     
     // Publish the application event
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .appDidEnterBackground, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
@@ -101,8 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   // MARK: - Background App Refresh
   
-  var performFetchCompletionHandler: (() -> Void)? = nil
-  
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
     // Publish the application event
@@ -110,91 +82,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     MyDataManager.shared.saveMainContext()
     
     // Publish a local notification if enabled
-    if Global.shared.notificationsEnabled {
-      let content = UNMutableNotificationContent()
-      content.title = ApplicationEventType.backgroundFetchTriggered.description
-      content.body = "🔵🔵🔵🔵🔵🔵"
-      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
-      let request = UNNotificationRequest(identifier: "KozMonitor.BackgroundFetchEventTriggered.\(Date().serverDateString)", content: content, trigger: trigger)
-      UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
+    MyNotificationManger.shared.publishNotification(title: ApplicationEventType.backgroundFetchTriggered.description, body: "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵")
     
     if Global.shared.backgroundFetchGetEnabled {
-      self.startDownloadTask {
+      MyServiceManager.shared.startDownloadTask {
         completionHandler(.newData)
       }
     } else {
       completionHandler(.newData)
     }
-  }
-  
-  func startDownloadTask(completion: @escaping () -> Void) {
-    
-    guard let url = Global.shared.requestUrl else {
-      completion()
-      return
-    }
-    
-    // Publish the application event
-    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchGetStarted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
-    MyDataManager.shared.saveMainContext()
-    
-    // Publish a local notification if enabled
-    if Global.shared.notificationsEnabled {
-      let content = UNMutableNotificationContent()
-      content.title = ApplicationEventType.backgroundFetchGetStarted.description
-      content.body = "🔴🔴🔴🔴🔴🔴"
-      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 2, repeats: false)
-      let request = UNNotificationRequest(identifier: "KozMonitor.BackgroundFetchEventStart.\(Date().serverDateString)", content: content, trigger: trigger)
-      UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
-    
-    // Save the completion handler
-    self.performFetchCompletionHandler = completion
-    
-    // Build the download task
-    let backgroundConfiguration = URLSessionConfiguration.background(withIdentifier: "Kozinga.KozMonitor.BackgroundSessionConfiguration")
-    let session = URLSession(configuration: backgroundConfiguration, delegate: self, delegateQueue: .current)
-    let downloadTask = session.downloadTask(with: url)
-    downloadTask.resume()
-  }
-}
-
-extension AppDelegate : URLSessionDownloadDelegate {
-  
-  func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-    if let error = error {
-      print("\(self.className) : didCompleteWithError \(error)")
-    }
-    self.backgroundFetchCompleted()
-  }
-  
-  func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-    print("\(self.className) : urlSessionDidFinishEvents")
-  }
-  
-  func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-    print("\(self.className) : Did finish downloading")
-  }
-  
-  private func backgroundFetchCompleted() {
-    
-    // Publish the application event
-    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchGetCompleted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
-    MyDataManager.shared.saveMainContext()
-    
-    // Publish a local notification if enabled
-    if Global.shared.notificationsEnabled {
-      let content = UNMutableNotificationContent()
-      content.title = ApplicationEventType.backgroundFetchGetCompleted.description
-      content.body = "⚫️⚫️⚫️⚫️⚫️⚫️"
-      let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
-      let request = UNNotificationRequest(identifier: "KozMonitor.BackgroundFetchEventEnd.\(Date().serverDateString)", content: content, trigger: trigger)
-      UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-    }
-    
-    // Execute background task completion handler
-    self.performFetchCompletionHandler?()
-    self.performFetchCompletionHandler = nil
   }
 }

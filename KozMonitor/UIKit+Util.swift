@@ -40,17 +40,3 @@ extension UIBackgroundFetchResult {
   }
 }
 
-extension UNAuthorizationStatus {
-  
-  var isAuthorized: Bool {
-    return self == .authorized
-  }
-  
-  var isDenied: Bool {
-    return self == .denied
-  }
-  
-  var isNotDetermined: Bool {
-    return self == .notDetermined
-  }
-}
