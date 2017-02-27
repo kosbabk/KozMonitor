@@ -9,6 +9,7 @@
 import Foundation
 import CoreLocation
 import UIKit
+import MapKit
 
 class MyLocationManager : NSObject, PermissionProtocol {
   
@@ -20,17 +21,25 @@ class MyLocationManager : NSObject, PermissionProtocol {
   
   // MARK: - Properties
   
-  let manager: CLLocationManager = CLLocationManager()
+  lazy var manager: CLLocationManager = {
+    let manager = CLLocationManager()
+    manager.desiredAccuracy = kCLLocationAccuracyBest
+    manager.delegate = self
+    return manager
+  }()
   
   var locationAuthorized: Bool {
     return CLLocationManager.authorizationStatus() == .authorizedAlways
   }
+  
+  var locations: [MKPointAnnotation] = []
   
   // MARK: - Permissions
   
   func refreshPermission(completion: @escaping () -> Void) {
     self.checkPermission(authorized: {
       
+      self.manager.startUpdatingLocation()
       completion()
       
     }, notDetermined: {
@@ -93,6 +102,48 @@ extension MyLocationManager : CLLocationManagerDelegate {
     
     if status == .authorizedAlways || status == .authorizedWhenInUse {
       manager.startUpdatingLocation()
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    guard let mostRecentLocation = locations.last else {
+      return
+    }
+    
+    // Add another annotation to the map.
+    let annotation = MKPointAnnotation()
+    annotation.coordinate = mostRecentLocation.coordinate
+    
+    // Also add to our map so we can remove old values later
+    self.locations.append(annotation)
+    
+    // Remove values if the array is too big
+    while locations.count > 100 {
+      let annotationToRemove = self.locations.first!
+      self.locations.remove(at: 0)
+      
+      // Also remove from the map
+      // mapView.removeAnnotation(annotationToRemove)
+    }
+    
+    if UIApplication.shared.applicationState == .active {
+      print("\(self.className) : App is active. New location is %@", mostRecentLocation)
+      //mapView.showAnnotations(self.locations, animated: true)
+    } else {
+      print("\(self.className) : App is backgrounded. New location is %@", mostRecentLocation)
+    }
+    
+    // Check for background fetch if eclipsed interval
+    var shouldBackgroundFetch = false
+    if let lastBackgroundFetchDate = Global.shared.lastBackgroundFetchDate as? Date, Date().timeIntervalSince(lastBackgroundFetchDate + Global.shared.backgroundFetchInterval) > 0 {
+      shouldBackgroundFetch = true
+    } else {
+      shouldBackgroundFetch = true
+    }
+    
+    if shouldBackgroundFetch {
+      MyServiceManager.shared.handleBackgroundFetch {
+      }
     }
   }
 }

@@ -45,7 +45,6 @@
 		B69B9CE01E5BB3E90060AFFB /* ApplicationEvent+Static.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B9CDF1E5BB3E90060AFFB /* ApplicationEvent+Static.swift */; };
 		B69B9CE21E5BB68A0060AFFB /* ApplicationEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B9CE11E5BB68A0060AFFB /* ApplicationEvent.swift */; };
 		B69B9CE41E5BC5680060AFFB /* TimeInterval+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B9CE31E5BC5680060AFFB /* TimeInterval+Util.swift */; };
-		B69B9CE61E5BCC7B0060AFFB /* UIKit+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69B9CE51E5BCC7B0060AFFB /* UIKit+Util.swift */; };
 		B6DA317D1E6263B60053E47E /* MyNotificationManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA317C1E6263B60053E47E /* MyNotificationManger.swift */; };
 		B6DA317F1E6269A90053E47E /* MyLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA317E1E6269A90053E47E /* MyLocationManager.swift */; };
 		B6DA31811E626D2E0053E47E /* MyServiceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DA31801E626D2E0053E47E /* MyServiceManager.swift */; };
@@ -95,7 +94,6 @@
 		B69B9CDF1E5BB3E90060AFFB /* ApplicationEvent+Static.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ApplicationEvent+Static.swift"; sourceTree = "<group>"; };
 		B69B9CE11E5BB68A0060AFFB /* ApplicationEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationEvent.swift; sourceTree = "<group>"; };
 		B69B9CE31E5BC5680060AFFB /* TimeInterval+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Util.swift"; sourceTree = "<group>"; };
-		B69B9CE51E5BCC7B0060AFFB /* UIKit+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+Util.swift"; sourceTree = "<group>"; };
 		B6B38ECB1E61725F003A7678 /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
 		B6DA317A1E6256120053E47E /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
 		B6DA317C1E6263B60053E47E /* MyNotificationManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyNotificationManger.swift; sourceTree = "<group>"; };
@@ -231,7 +229,6 @@
 				B682435F1E5AB1BF0011350B /* Number+Util.swift */,
 				B68243611E5AB2E20011350B /* Date+Util.swift */,
 				B69B9CE31E5BC5680060AFFB /* TimeInterval+Util.swift */,
-				B69B9CE51E5BCC7B0060AFFB /* UIKit+Util.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -413,7 +410,6 @@
 				B697073B1E5B8CAC0034A3FB /* MyPresentationManager.swift in Sources */,
 				B68243801E5ABC700011350B /* Global+Static.swift in Sources */,
 				B682433F1E5918B60011350B /* Global.swift in Sources */,
-				B69B9CE61E5BCC7B0060AFFB /* UIKit+Util.swift in Sources */,
 				B6DA31811E626D2E0053E47E /* MyServiceManager.swift in Sources */,
 				B69B9CE01E5BB3E90060AFFB /* ApplicationEvent+Static.swift in Sources */,
 				B6DA317D1E6263B60053E47E /* MyNotificationManger.swift in Sources */,
