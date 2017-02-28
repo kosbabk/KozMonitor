@@ -135,8 +135,8 @@ extension MyLocationManager : CLLocationManagerDelegate {
     // Remove values if the array is too big
     while locations.count > 100 {
       if let annotationToRemove = self.locations.first {
-        self.locations.remove(at: 0)
       }
+      self.locations.remove(at: 0)
       
       // Also remove from the map
       // mapView.removeAnnotation(annotationToRemove)
@@ -158,6 +158,12 @@ extension MyLocationManager : CLLocationManagerDelegate {
     }
     
     if shouldBackgroundFetch {
+      
+      // Publish the application event
+      _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundLocationFetchTriggered, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+      MyDataManager.shared.saveMainContext()
+      
+      
       MyServiceManager.shared.handleBackgroundFetch {
       }
     }

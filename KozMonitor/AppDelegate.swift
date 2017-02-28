@@ -77,6 +77,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
+    // Publish the application event
+    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchTriggered, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+    MyDataManager.shared.saveMainContext()
+    
     MyServiceManager.shared.handleBackgroundFetch {
       completionHandler(.newData)
     }

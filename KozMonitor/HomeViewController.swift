@@ -29,9 +29,10 @@ class HomeViewController : MyViewController, NSFetchedResultsControllerDelegate 
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    self.title = "Background Events"
+    self.title = "Events"
     
     self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icSettingsMenu"), target: self, action: #selector(self.openSettingsMenu))
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Scroll Bottom", style: .plain, target: self, action: #selector(self.scrollToLast))
     
     self.buildFetchController()
   }
@@ -42,11 +43,25 @@ class HomeViewController : MyViewController, NSFetchedResultsControllerDelegate 
     self.reloadContent()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    self.scrollToLast()
+  }
+  
   // MARK: - Actions
   
   @objc func openSettingsMenu() {
     var viewController = SettingsViewController.newViewController()
-    viewController.presentControllerIn(self, forMode: .leftMenu, inNavigationController: false, isDragDismissable: true)
+    viewController.presentControllerIn(self, forMode: .leftMenu, inNavigationController: true, isDragDismissable: true)
+  }
+  
+  @objc func scrollToLast() {
+    for childViewController in self.childViewControllers {
+      if let tableViewController = childViewController as? UITableViewController {
+        tableViewController.scrollToLastItem()
+      }
+    }
   }
   
   // MARK: - NSFetchedResultsControllerDelegate
@@ -59,7 +74,7 @@ class HomeViewController : MyViewController, NSFetchedResultsControllerDelegate 
     self.fetchedResultsController = Global.newFetchedResultsController()
     self.fetchedResultsController?.delegate = self
     
-    self.eventFetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .backgroundFetchGetStarted, .backgroundFetchGetCompleted, .backgroundFetchTriggered ])
+    self.eventFetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .backgroundFetchGetStarted, .backgroundFetchGetCompleted, .backgroundFetchTriggered, .backgroundLocationFetchTriggered ])
     self.eventFetchedResultsController?.delegate = self
     
     do {
@@ -74,6 +89,8 @@ class HomeViewController : MyViewController, NSFetchedResultsControllerDelegate 
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
     
     self.reloadContent()
+    
+    self.scrollToLast()
   }
   
   // MARK: - Content

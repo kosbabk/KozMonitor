@@ -29,9 +29,6 @@ class MyServiceManager : NSObject {
   // MARK: - Background Download Task
   
   func handleBackgroundFetch(completion: @escaping () -> Void) {
-    // Publish the application event
-    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchTriggered, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
-    MyDataManager.shared.saveMainContext()
     
     // Update the last request date in global
     Global.shared.lastBackgroundFetchDate = Date() as NSDate

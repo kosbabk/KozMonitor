@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 enum ApplicationEventType: Int {
-  case na, appDidBecomeActive, appDidEnterBackground, appWillTerminate, backgroundFetchGetStarted, backgroundFetchGetCompleted, updatedBackgroundFetchInterval, backgroundFetchTriggered
+  case na, appDidBecomeActive, appDidEnterBackground, appWillTerminate, backgroundFetchGetStarted, backgroundFetchGetCompleted, updatedBackgroundFetchInterval, backgroundFetchTriggered, backgroundLocationFetchTriggered
   
   var description: String {
     switch self {
@@ -30,6 +30,8 @@ enum ApplicationEventType: Int {
       return "Background Fetch Interval Updated"
     case .backgroundFetchTriggered:
       return "Background Fetch Triggered"
+    case .backgroundLocationFetchTriggered:
+      return "Location Background Fetch Triggered"
     }
   }
 }

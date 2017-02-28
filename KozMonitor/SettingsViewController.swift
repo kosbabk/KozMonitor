@@ -20,7 +20,6 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   // MARK: - Properties
   
-  @IBOutlet weak var dismissButton: UIButton!
   @IBOutlet weak var expectedFetchIntervalLabel: UILabel!
   @IBOutlet weak var expectedFetchIntervalPickerView: UIPickerView!
   
@@ -39,6 +38,9 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
     self.expectedFetchIntervalPickerView.delegate = self
     self.expectedFetchIntervalPickerView.dataSource = self
     
+    self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Clear DB", style: .plain, target: self, action: #selector(self.clearDbSelected))
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "🏠", style: .plain, target: self, action: #selector(self.homeButtonSelected))
+    
     // Notification permissions
     MyNotificationManger.shared.promptAlertIfDenied(self, completion: nil)
     
@@ -55,7 +57,17 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
   
   // MARK: - Actions
   
-  @IBAction func dismissButtonSelected() {
+  @objc func clearDbSelected() {
+    let alertController = UIAlertController(title: "Clear Database", message: "This will delete all events currently in the database. Is this ok?", preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: "Delete All", style: .destructive, handler: { (_) in
+      ApplicationEvent.deleteAll()
+      MyDataManager.shared.saveMainContext()
+    }))
+    alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    self.present(alertController, animated: true, completion: nil)
+  }
+  
+  @objc func homeButtonSelected() {
     self.dismissController()
   }
   
@@ -121,7 +133,6 @@ class SettingsViewController : MyTableViewController, NSFetchedResultsController
       // Denied
       MyNotificationManger.shared.promptAlertIfDenied(self, completion: nil)
     }
-    
   }
   
   @IBAction func getEnabledSwitchValueChanged(_ sender: UISwitch) {
@@ -155,7 +166,10 @@ extension SettingsViewController : UIPickerViewDelegate, UIPickerViewDataSource 
   
   private var timeIntervals: [TimeInterval] {
     var intervals: [TimeInterval] = []
-    for minute in 0...30 {
+    intervals.append(TimeInterval(15))
+    intervals.append(TimeInterval(30))
+    intervals.append(TimeInterval(45))
+    for minute in 1...30 {
       intervals.append(TimeInterval(minute * 60))
     }
     return intervals
