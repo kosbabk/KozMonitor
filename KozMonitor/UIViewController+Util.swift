@@ -60,13 +60,24 @@ extension UIViewController {
 extension UITableViewController {
   
   func scrollToLastItem(animated: Bool = true) {
-    let lastIndexPath = self.lastIndexPath
-    self.tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: animated)
+    if let lastIndexPath = self.lastIndexPath {
+      self.tableView.scrollToRow(at: lastIndexPath, at: .bottom, animated: animated)
+    }
   }
   
-  var lastIndexPath: IndexPath {
-    let lastSectionIndex = max(0, self.tableView.numberOfSections - 1)
-    let lastRowIndex = max(0, self.tableView.numberOfRows(inSection: lastSectionIndex) - 1)
+  var lastIndexPath: IndexPath? {
+    let lastSectionIndex = self.tableView.numberOfSections - 1
+    
+    guard lastSectionIndex >= 0 else {
+      return nil
+    }
+    
+    let lastRowIndex = self.tableView.numberOfRows(inSection: lastSectionIndex) - 1
+    
+    guard lastRowIndex >= 0 else {
+      return nil
+    }
+    
     return IndexPath(row: lastRowIndex, section: lastSectionIndex)
   }
 }
