@@ -8,29 +8,70 @@
 
 import Foundation
 
+enum TimeIntervalType {
+  case nanosecond, millisecond, second, minute, hour, day, week, year
+  
+  var value: TimeInterval {
+    switch self {
+    case .nanosecond:
+      return 1 / 1000000
+    case .millisecond:
+      return 1 / 1000
+    case .second:
+      return 1
+    case .minute:
+      return 60
+    case .hour:
+      return 60*60
+    case .day:
+      return 60*60*24
+    case .week:
+      return 60*60*24*7
+    case .year:
+      return 60*60*24*7*52
+    }
+  }
+  
+  var string: String {
+    switch self {
+    case .nanosecond:
+      return "ns"
+    case .millisecond:
+      return "ms"
+    case .second:
+      return "s"
+    case .minute:
+      return "m"
+    case .hour:
+      return "h"
+    case .day:
+      return "d"
+    case .week:
+      return "w"
+    case .year:
+      return "y"
+    }
+  }
+  
+  static let all: [TimeIntervalType] = [ .year, .week, .day, .hour, .minute, .second, .millisecond ]
+}
+
 extension TimeInterval {
   
   var timeString: String {
-//    let day: TimeInterval = 60*60*24
-//    let hour: TimeInterval = 60*60
-//    let minute: TimeInterval = 60
-//    let days = Int(self / day)
-//    let hours = Int(self.truncatingRemainder(dividingBy: day) / hour)
-//    let minutes = Int(self.truncatingRemainder(dividingBy: day).truncatingRemainder(dividingBy: hour) / minute)
-//    let seconds = Int(self.truncatingRemainder(dividingBy: day).truncatingRemainder(dividingBy: hour).truncatingRemainder(dividingBy: minute))
-//    
-//    var timeStrings: [String] = []
-//    if days > 1 { timeStrings.append("\(days)d") }
-//    if hours > 1 { timeStrings.append("\(hours)h") }
-//    if minutes > 1 { timeStrings.append("\(minutes)m") }
-//    if seconds > 1 { timeStrings.append("\(seconds)s") }
-//    return timeStrings.joined(separator: " ")
-      
-    // OLD
-    if self > 120 {
-      return "\((self / 60).oneDecimal)m"
-    } else {
-      return "\(Double(self).oneDecimal)s"
+    var elements: [String] = []
+    var remaining = self
+    for intervalType in TimeIntervalType.all {
+      let value = Int(remaining / intervalType.value)
+      if value > 0 {
+        elements.append("\(value)\(intervalType.string)")
+      }
+      remaining -= TimeInterval(value) * intervalType.value
     }
+    return elements.joined(separator: " ")
+  }
+  
+  func get(_ intervalType: TimeIntervalType) -> Int {
+    return Int(self / intervalType.value)
   }
 }

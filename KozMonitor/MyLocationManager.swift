@@ -40,12 +40,17 @@ class MyLocationManager : NSObject, PermissionProtocol {
     self.checkPermission(authorized: {
       
       self.manager.startUpdatingLocation()
-      completion()
+      DispatchQueue.main.async {
+        completion()
+      }
       
     }, notDetermined: {
       
       // Request permission
       self.manager.requestAlwaysAuthorization()
+      DispatchQueue.main.async {
+        completion()
+      }
       
     }) {
       // Denied or restricted
@@ -54,20 +59,28 @@ class MyLocationManager : NSObject, PermissionProtocol {
       Global.shared.notificationsEnabled = false
       MyDataManager.shared.saveMainContext()
       
-      completion()
+      DispatchQueue.main.async {
+        completion()
+      }
     }
   }
   
   func checkPermission(authorized: @escaping () -> Void, notDetermined: @escaping () -> Void, denied: (() -> Void)?) {
     switch CLLocationManager.authorizationStatus() {
     case .authorizedAlways:
-      authorized()
+      DispatchQueue.main.async {
+        authorized()
+      }
       break
     case .notDetermined:
-      notDetermined()
+      DispatchQueue.main.async {
+        notDetermined()
+      }
       break
     case .restricted, .denied, .authorizedWhenInUse:
-      denied?()
+      DispatchQueue.main.async {
+        denied?()
+      }
       break
     }
   }
@@ -85,7 +98,9 @@ class MyLocationManager : NSObject, PermissionProtocol {
       alertController.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { (_) in
         if let url = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(url) {
           UIApplication.shared.open(url, options: [:]) { (_) in
-            completion?()
+            DispatchQueue.main.async {
+              completion?()
+            }
           }
         }
       }))
@@ -119,8 +134,9 @@ extension MyLocationManager : CLLocationManagerDelegate {
     
     // Remove values if the array is too big
     while locations.count > 100 {
-      let annotationToRemove = self.locations.first!
-      self.locations.remove(at: 0)
+      if let annotationToRemove = self.locations.first {
+        self.locations.remove(at: 0)
+      }
       
       // Also remove from the map
       // mapView.removeAnnotation(annotationToRemove)
@@ -135,9 +151,9 @@ extension MyLocationManager : CLLocationManagerDelegate {
     
     // Check for background fetch if eclipsed interval
     var shouldBackgroundFetch = false
-    if let lastBackgroundFetchDate = Global.shared.lastBackgroundFetchDate as? Date, Date().timeIntervalSince(lastBackgroundFetchDate + Global.shared.backgroundFetchInterval) > 0 {
+    if let lastBackgroundFetchDate = Global.shared.lastBackgroundFetchDate as? Date, abs(Date().timeIntervalSince(lastBackgroundFetchDate)) > Global.shared.backgroundFetchInterval {
       shouldBackgroundFetch = true
-    } else {
+    } else if Global.shared.lastBackgroundFetchDate == nil {
       shouldBackgroundFetch = true
     }
     

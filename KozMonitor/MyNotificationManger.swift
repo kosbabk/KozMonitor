@@ -28,7 +28,9 @@ class MyNotificationManger : NSObject, PermissionProtocol {
     self.checkPermission(authorized: {
       
       self.notificationsAuthorized = true
-      completion()
+      DispatchQueue.main.async {
+        completion()
+      }
       
     }, notDetermined: {
       
@@ -46,7 +48,9 @@ class MyNotificationManger : NSObject, PermissionProtocol {
           Global.shared.notificationsEnabled = false
           MyDataManager.shared.saveMainContext()
         }
-        completion()
+        DispatchQueue.main.async {
+          completion()
+        }
       }
       
     }) {
@@ -57,7 +61,9 @@ class MyNotificationManger : NSObject, PermissionProtocol {
       Global.shared.notificationsEnabled = false
       MyDataManager.shared.saveMainContext()
       
-      completion()
+      DispatchQueue.main.async {
+        completion()
+      }
     }
   }
   
@@ -65,13 +71,19 @@ class MyNotificationManger : NSObject, PermissionProtocol {
     UNUserNotificationCenter.current().getNotificationSettings { (settings) in
       switch settings.authorizationStatus {
       case .authorized:
-        authorized()
+        DispatchQueue.main.async {
+          authorized()
+        }
         break
       case .notDetermined:
-        notDetermined()
+        DispatchQueue.main.async {
+          notDetermined()
+        }
         break
       case.denied:
-        denied?()
+        DispatchQueue.main.async {
+          denied?()
+        }
         break
       }
     }
@@ -90,7 +102,9 @@ class MyNotificationManger : NSObject, PermissionProtocol {
       alertController.addAction(UIAlertAction(title: "Open Settings", style: .default, handler: { (_) in
         if let url = URL(string: UIApplicationOpenSettingsURLString), UIApplication.shared.canOpenURL(url) {
           UIApplication.shared.open(url, options: [:]) { (_) in
-            completion?()
+            DispatchQueue.main.async {
+              completion?()
+            }
           }
         }
       }))
