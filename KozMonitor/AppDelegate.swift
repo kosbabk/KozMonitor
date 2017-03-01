@@ -51,6 +51,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Publish the application event
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .appDidEnterBackground, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
+    
+    // Start location services if not already
+    MyLocationManager.shared.startLocationServices()
   }
 
   func applicationWillEnterForeground(_ application: UIApplication) {
@@ -78,8 +81,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
     // Publish the application event
-    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchTriggered, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+    let eventType: ApplicationEventType = .backgroundFetchTriggered
+    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: eventType, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
+    
+    // Publish a local notification if enabled
+    MyNotificationManger.shared.publishNotification(title: eventType.description, body: eventType.body)
     
     MyServiceManager.shared.handleBackgroundFetch {
       completionHandler(.newData)

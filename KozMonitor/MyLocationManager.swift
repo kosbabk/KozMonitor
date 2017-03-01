@@ -17,20 +17,24 @@ class MyLocationManager : NSObject, PermissionProtocol {
   
   static let shared: MyLocationManager = MyLocationManager()
   
-  private override init() { super.init() }
+  private override init() {
+    super.init()
+    
+    self.manager.desiredAccuracy = kCLLocationAccuracyBest
+    self.manager.distanceFilter = kCLDistanceFilterNone
+    self.manager.delegate = self
+    self.manager.allowsBackgroundLocationUpdates = true
+  }
   
   // MARK: - Properties
   
-  lazy var manager: CLLocationManager = {
-    let manager = CLLocationManager()
-    manager.desiredAccuracy = kCLLocationAccuracyBest
-    manager.delegate = self
-    return manager
-  }()
+  let manager: CLLocationManager = CLLocationManager()
   
   var locationAuthorized: Bool {
     return CLLocationManager.authorizationStatus() == .authorizedAlways
   }
+  
+  var backgroundTask = UIBackgroundTaskInvalid
   
   var locations: [MKPointAnnotation] = []
   
@@ -39,7 +43,7 @@ class MyLocationManager : NSObject, PermissionProtocol {
   func refreshPermission(completion: @escaping () -> Void) {
     self.checkPermission(authorized: {
       
-      self.manager.startUpdatingLocation()
+      self.startLocationServices()
       DispatchQueue.main.async {
         completion()
       }
@@ -109,18 +113,34 @@ class MyLocationManager : NSObject, PermissionProtocol {
   }
   
   // MARK: - Location Updates
+  
+  func startLocationServices() {
+    self.manager.startUpdatingLocation()
+  }
+  
+  func stopLocationServices() {
+    self.manager.stopUpdatingLocation()
+  }
 }
 
 extension MyLocationManager : CLLocationManagerDelegate {
   
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
     
-    if status == .authorizedAlways || status == .authorizedWhenInUse {
-      manager.startUpdatingLocation()
+    if status == .authorizedAlways {
+      self.startLocationServices()
+    } else {
+      self.manager.requestAlwaysAuthorization()
     }
   }
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    
+    self.backgroundTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+      UIApplication.shared.endBackgroundTask(self.backgroundTask)
+      self.backgroundTask = UIBackgroundTaskInvalid
+    })
+    
     guard let mostRecentLocation = locations.last else {
       return
     }
@@ -160,9 +180,12 @@ extension MyLocationManager : CLLocationManagerDelegate {
     if shouldBackgroundFetch {
       
       // Publish the application event
-      _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundLocationFetchTriggered, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+      let eventType: ApplicationEventType = UIApplication.shared.applicationState == .active ? .activeLocationFetchTriggered : .backgroundLocationFetchTriggered
+      _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: eventType, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
       MyDataManager.shared.saveMainContext()
       
+      // Publish a local notification if enabled
+      MyNotificationManger.shared.publishNotification(title: eventType.description, body: eventType.body)
       
       MyServiceManager.shared.handleBackgroundFetch {
       }

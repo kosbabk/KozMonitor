@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 enum ApplicationEventType: Int {
-  case na, appDidBecomeActive, appDidEnterBackground, appWillTerminate, backgroundFetchGetStarted, backgroundFetchGetCompleted, updatedBackgroundFetchInterval, backgroundFetchTriggered, backgroundLocationFetchTriggered
+  case na, appDidBecomeActive, appDidEnterBackground, appWillTerminate, backgroundFetchGetStarted, backgroundFetchGetCompleted, updatedBackgroundFetchInterval, backgroundFetchTriggered, backgroundLocationFetchTriggered, activeLocationFetchTriggered
   
   var description: String {
     switch self {
@@ -32,6 +32,21 @@ enum ApplicationEventType: Int {
       return "Background Fetch Triggered"
     case .backgroundLocationFetchTriggered:
       return "Location Background Fetch Triggered"
+    case .activeLocationFetchTriggered:
+      return "Location Active Fetch Triggered"
+    }
+  }
+  
+  var body: String {
+    switch self {
+    case .backgroundFetchTriggered:
+      return "📲📲📲📲📲"
+    case .backgroundFetchGetCompleted:
+      return "⚡️⚡️⚡️⚡️⚡️"
+    case .activeLocationFetchTriggered, .backgroundLocationFetchTriggered:
+      return "🌎🌎🌎🌎🌎"
+    default:
+      return ""
     }
   }
 }
@@ -75,6 +90,8 @@ extension ApplicationEvent : MyManagedObjectProtocol {
   }
   
   // MARK: - Fetched Results Controllers
+  
+  static let listenableEvents: [ApplicationEventType] = [ .backgroundFetchTriggered, .backgroundLocationFetchTriggered, .activeLocationFetchTriggered, .backgroundFetchGetCompleted ]
   
   static func newFetchedResultsController(eventType: ApplicationEventType) -> NSFetchedResultsController<ApplicationEvent> {
     let predicate = NSPredicate(format: "eventTypeValue == %d", eventType.rawValue)

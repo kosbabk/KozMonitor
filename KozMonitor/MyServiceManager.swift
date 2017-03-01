@@ -34,9 +34,6 @@ class MyServiceManager : NSObject {
     Global.shared.lastBackgroundFetchDate = Date() as NSDate
     MyDataManager.shared.saveMainContext()
     
-    // Publish a local notification if enabled
-    MyNotificationManger.shared.publishNotification(title: ApplicationEventType.backgroundFetchTriggered.description, body: "🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵")
-    
     if Global.shared.backgroundFetchGetEnabled {
       self.startDownloadTask {
         completion()
@@ -56,9 +53,6 @@ class MyServiceManager : NSObject {
     // Publish the application event
     _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchGetStarted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
-    
-    // Publish a local notification if enabled
-    MyNotificationManger.shared.publishNotification(title: ApplicationEventType.backgroundFetchGetStarted.description, body: "🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴")
     
     // Save the completion handler
     self.currentTaskCompletionHandler = completion
@@ -91,11 +85,12 @@ extension MyServiceManager : URLSessionDownloadDelegate {
   private func downloadTaskCompleted() {
     
     // Publish the application event
-    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: .backgroundFetchGetCompleted, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
+    let eventType: ApplicationEventType = .backgroundFetchGetCompleted
+    _ = ApplicationEvent.createOrUpdate(date: Date(), eventType: eventType, fetchInterval: Global.shared.backgroundFetchInterval, requestPath: Global.shared.requestPath)
     MyDataManager.shared.saveMainContext()
     
     // Publish a local notification if enabled
-    MyNotificationManger.shared.publishNotification(title: ApplicationEventType.backgroundFetchGetCompleted.description, body: "⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️⚫️")
+    MyNotificationManger.shared.publishNotification(title: eventType.description, body: eventType.body)
     
     // Update the last request date in global
     Global.shared.lastRequestDate = Date() as NSDate

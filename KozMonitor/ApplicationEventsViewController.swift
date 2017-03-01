@@ -26,7 +26,7 @@ class ApplicationEventCell : UITableViewCell {
     
     self.titleLabel.text = applicationEvent.eventType.description
     self.leftDetailLabel.text = applicationEvent.date?.formatted_MdYYhms ?? "🕑?"
-    self.rightDetailLabel.text = ""
+    self.rightDetailLabel.text = applicationEvent.eventType.body
     
     // Duration to next event
     if let currentDate = applicationEvent.date, let nextDate = nextApplicationEvent?.date {
@@ -65,7 +65,7 @@ class ApplicationEventsViewController : MyTableViewController, ItemsReloadable, 
   var fetchedResultsController: NSFetchedResultsController<ApplicationEvent>? = nil
   
   func buildFetchedResultsController() {
-    self.fetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .backgroundFetchGetStarted, .backgroundFetchGetCompleted, .backgroundFetchTriggered, .backgroundLocationFetchTriggered ])
+    self.fetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: ApplicationEvent.listenableEvents)
     self.fetchedResultsController?.delegate = self
     
     do {

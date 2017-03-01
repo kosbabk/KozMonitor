@@ -74,7 +74,7 @@ class HomeViewController : MyViewController, NSFetchedResultsControllerDelegate 
     self.fetchedResultsController = Global.newFetchedResultsController()
     self.fetchedResultsController?.delegate = self
     
-    self.eventFetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: [ .backgroundFetchGetStarted, .backgroundFetchGetCompleted, .backgroundFetchTriggered, .backgroundLocationFetchTriggered ])
+    self.eventFetchedResultsController = ApplicationEvent.newFetchedResultsController(eventTypes: ApplicationEvent.listenableEvents)
     self.eventFetchedResultsController?.delegate = self
     
     do {
