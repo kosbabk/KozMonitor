@@ -10,17 +10,18 @@ import Foundation
 import UIKit
 
 protocol EmptyStateDelegate {
+  var emptyStateView: EmptyStateView? { get set }
   var emptyStateTitle: String { get }
   var emptyStateMessage: String { get }
   var emptyStateImage: UIImage? { get }
   var emptyStateButtonTitle: String? { get }
-  func updateEmptyState()
+  mutating func updateEmptyState()
   func emptyStateButtonSelected()
 }
 
 extension EmptyStateDelegate where Self : UIViewController {
   
-  func updateEmptyState() {
+  mutating func updateEmptyState() {
     
     if let collectionViewController = self as? UICollectionViewController, let collectionView = collectionViewController.collectionView {
       
@@ -59,58 +60,39 @@ extension EmptyStateDelegate where Self : UIViewController {
     }
   }
   
-  func showEmptyState() {
+  mutating func showEmptyState() {
     
     // Hide empty state if necessary
     self.hideEmptyState()
     
     // Configure the empty view
     let emptyStateView = EmptyStateView.newView(title: self.emptyStateTitle, message: self.emptyStateMessage, image: self.emptyStateImage, buttonTitle: self.emptyStateButtonTitle, didSelectButton: self.emptyStateButtonSelected)
+    
     if let collectionViewController = self as? UICollectionViewController, let collectionView = collectionViewController.collectionView {
       emptyStateView.backgroundColor = collectionView.backgroundColor
       emptyStateView.addToContainer(self.view)
+      self.emptyStateView = emptyStateView
+      
     } else if let tableViewController = self as? UITableViewController, let tableView = tableViewController.tableView {
       emptyStateView.backgroundColor = tableView.backgroundColor
       if let navigationController = self.navigationController {
         let convertedTableViewFrame = tableViewController.tableView.convert(tableViewController.tableView.frame, to: navigationController.view)
         let tableViewYOffset = convertedTableViewFrame.minY
         emptyStateView.addToContainer(navigationController.view, topMargin: tableViewYOffset)
+        self.emptyStateView = emptyStateView
       } else {
-        emptyStateView.addToContainer(tableViewController.view, topMargin: 50)
+        print("EmptyStateDelegate : Empty State not supported for UITableViewController without navigation controller")
       }
+      
     } else {
       emptyStateView.backgroundColor = self.view.backgroundColor
       emptyStateView.addToContainer(self.view)
+      self.emptyStateView = emptyStateView
     }
   }
   
-  func hideEmptyState() {
-    
-    // Find the empty state view and remove it
-    var emptyStateViews: [EmptyStateView] = []
-    
-    // Special case for table view
-    if let _ = self as? UITableViewController, let navigationController = self.navigationController {
-      for view in navigationController.view.subviews {
-        if let view = view as? EmptyStateView {
-          emptyStateViews.append(view)
-          break
-        }
-      }
-      
-    } else {
-      
-      
-      for view in self.view.subviews {
-        if let view = view as? EmptyStateView {
-          emptyStateViews.append(view)
-          break
-        }
-      }
-    }
-    
-    for view in emptyStateViews {
-      view.removeFromSuperview()
-    }
+  mutating func hideEmptyState() {
+    self.emptyStateView?.removeFromSuperview()
+    self.emptyStateView = nil
   }
 }

@@ -38,7 +38,7 @@ class ApplicationEventCell : UITableViewCell {
   }
 }
 
-class ApplicationEventsViewController : MyTableViewController, ItemsReloadable, NSFetchedResultsControllerDelegate {
+class ApplicationEventsViewController : MyTableViewController, NSFetchedResultsControllerDelegate, ItemsReloadable, EmptyStateDelegate {
   
   // MARK: - Class Accessors
   
@@ -111,9 +111,10 @@ class ApplicationEventsViewController : MyTableViewController, ItemsReloadable, 
     cell.configure(applicationEvent: applicationEvent, nextApplicationEvent: nextEvent)
     return cell
   }
-}
-
-extension ApplicationEventsViewController : EmptyStateDelegate {
+  
+  // MARK: - EmptyStateDelegate
+  
+  var emptyStateView: EmptyStateView? = nil
   
   var emptyStateTitle: String {
     return "No Events"

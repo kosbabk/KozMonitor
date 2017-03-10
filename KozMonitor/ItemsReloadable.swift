@@ -13,9 +13,8 @@ protocol ItemsReloadable {}
 extension ItemsReloadable where Self : UIViewController {
   
   func reloadEmptyState() {
-    if let emptyStateDelegate = self as? EmptyStateDelegate {
-      emptyStateDelegate.updateEmptyState()
-    }
+    var emptyStateDelegate = self as? EmptyStateDelegate
+    emptyStateDelegate?.updateEmptyState()
   }
   
   func reloadEditableElements() {
