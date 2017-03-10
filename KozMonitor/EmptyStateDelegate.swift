@@ -71,7 +71,13 @@ extension EmptyStateDelegate where Self : UIViewController {
       emptyStateView.addToContainer(self.view)
     } else if let tableViewController = self as? UITableViewController, let tableView = tableViewController.tableView {
       emptyStateView.backgroundColor = tableView.backgroundColor
-      emptyStateView.addToContainer(tableView)
+      if let navigationController = self.navigationController {
+        let convertedTableViewFrame = tableViewController.tableView.convert(tableViewController.tableView.frame, to: navigationController.view)
+        let tableViewYOffset = convertedTableViewFrame.minY
+        emptyStateView.addToContainer(navigationController.view, topMargin: tableViewYOffset)
+      } else {
+        emptyStateView.addToContainer(tableViewController.view, topMargin: 50)
+      }
     } else {
       emptyStateView.backgroundColor = self.view.backgroundColor
       emptyStateView.addToContainer(self.view)
@@ -80,12 +86,26 @@ extension EmptyStateDelegate where Self : UIViewController {
   
   func hideEmptyState() {
     
-    // Find the empty state view
+    // Find the empty state view and remove it
     var emptyStateViews: [EmptyStateView] = []
-    for view in self.view.subviews {
-      if let view = view as? EmptyStateView {
-        emptyStateViews.append(view)
-        break
+    
+    // Special case for table view
+    if let _ = self as? UITableViewController, let navigationController = self.navigationController {
+      for view in navigationController.view.subviews {
+        if let view = view as? EmptyStateView {
+          emptyStateViews.append(view)
+          break
+        }
+      }
+      
+    } else {
+      
+      
+      for view in self.view.subviews {
+        if let view = view as? EmptyStateView {
+          emptyStateViews.append(view)
+          break
+        }
       }
     }
     

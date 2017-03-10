@@ -112,3 +112,22 @@ class ApplicationEventsViewController : MyTableViewController, ItemsReloadable, 
     return cell
   }
 }
+
+extension ApplicationEventsViewController : EmptyStateDelegate {
+  
+  var emptyStateTitle: String {
+    return "No Events"
+  }
+  
+  var emptyStateMessage: String {
+    return "No background or location events have occurred."
+  }
+  
+  var emptyStateImage: UIImage? {
+    return nil
+  }
+  
+  var emptyStateButtonTitle: String? { return nil }
+  
+  func emptyStateButtonSelected() {}
+}
